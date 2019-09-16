@@ -11,8 +11,16 @@
             "homepage": "http://www.mayijuntuan.com"
         }
     ],
+    "support": {
+        "source": "https://github.com/mayijuntuan/base-service",
+        "issues": "https://github.com/mayijuntuan/base-service/issues"
+    },
     "require": {
-        "php": ">=5.5"
+        "php": ">=5.5",
+        "aws/aws-sdk-php": "^3.112",
+        "qiniu/php-sdk": "^7.2",
+        "alibabacloud/client": "^1.5",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
