@@ -1,0 +1,31 @@
+{
+    "name": "mayijuntuan/base-service",
+    "homepage": "http://www.being.com",
+    "description": "Mayijuntuan SDK for PHP - Use Mayijuntuan Services in your PHP project",
+    "keywords": ["mayiuntuan", "services", "sms","email","file","pay","crypto"],
+    "license": "Apache-2.0",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Mayijuntuan Base Services",
+            "homepage": "http://www.mayijuntuan.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mayijuntuan\\": "src/"
+        },
+        "files": ["src/Libweibo/saetv2.ex.class.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mayijuntuan\\Test\\": "tests/"
+        }
+    }
+}
