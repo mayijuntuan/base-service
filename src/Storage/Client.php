@@ -1,5 +1,5 @@
 <?php
-namespace Mayijuntuan;
+namespace Mayijuntuan\Storage;
 
 use Mayijuntuan\Storage\S3Service;
 use Mayijuntuan\Storage\QiniuService;
@@ -59,8 +59,8 @@ final class Client
     }
 
     //上传文件
-    public static function staticUpload( $key, $filePath ){
-        return self::getClient()->upload( $key, $filePath );
+    public static function staticUpload( $key, $filePath, $bucket=null ){
+        return self::getClient()->upload( $key, $filePath, $bucket );
     }
 
     //获取文件url

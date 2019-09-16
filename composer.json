@@ -1,6 +1,6 @@
 {
     "name": "mayijuntuan/base-service",
-    "homepage": "http://www.being.com",
+    "homepage": "http://www.mayijuntuan.com",
     "description": "Mayijuntuan SDK for PHP - Use Mayijuntuan Services in your PHP project",
     "keywords": ["mayiuntuan", "services", "sms","email","file","pay","crypto"],
     "license": "Apache-2.0",
@@ -28,8 +28,7 @@
     "autoload": {
         "psr-4": {
             "Mayijuntuan\\": "src/"
-        },
-        "files": ["src/Libweibo/saetv2.ex.class.php"]
+        }
     },
     "autoload-dev": {
         "psr-4": {
