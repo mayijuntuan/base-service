@@ -32,6 +32,11 @@ final class Client
         return $this->client->send( $code, $mobile, $content );
     }
 
+    //按模板发送短信
+    public function sendTemplate( $code, $mobile, $templateCode, $templateParams ){
+        return $this->client->sendTemplate( $code, $mobile, $templateCode, $templateParams );
+    }
+
     //获取短信状态
     public function sendStatus( $msgid ){
         return $this->client->sendStatus( $msgid );
@@ -58,6 +63,11 @@ final class Client
     //发送短信
     public static function staticSend( $code, $mobile, $content ){
         return self::getClient()->send( $code, $mobile, $content );
+    }
+
+    //按模板发送短信
+    public static function staticSendTemplate( $code, $mobile, $templateCode, $templateParams ){
+        return self::getClient()->sendTemplate( $code, $mobile, $templateCode, $templateParams );
     }
 
     //获取短信状态
