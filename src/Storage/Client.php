@@ -1,8 +1,9 @@
 <?php
 namespace Mayijuntuan\Storage;
 
-use Mayijuntuan\Storage\S3Service;
+use Mayijuntuan\Storage\OssService;
 use Mayijuntuan\Storage\QiniuService;
+use Mayijuntuan\Storage\S3Service;
 
 
 final class Client
@@ -20,11 +21,14 @@ final class Client
         $driver = $storageConfig['driver'];
         $config = $storageConfig[$driver];
         switch($driver){
-            case 's3':
-                self::$staticClient = new S3Service($config);
+            case 'oss':
+                self::$staticClient = new OssService($config);
                 break;
             case 'qiniu':
                 self::$staticClient = new QiniuService($config);
+                break;
+            case 's3':
+                self::$staticClient = new S3Service($config);
                 break;
         }//end switch
 
