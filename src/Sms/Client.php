@@ -54,6 +54,9 @@ final class Client
             case 'zsd':
                 self::$staticClient = new ZsdService($config);
                 break;
+            case 'alibaba':
+                self::$staticClient = new AlibabaService($config);
+                break;
         }//end switch
 
         return self::$staticClient;
