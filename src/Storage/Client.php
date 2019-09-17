@@ -8,41 +8,15 @@ use Mayijuntuan\Storage\QiniuService;
 final class Client
 {
 
-    private $client;
     private static $staticClient;
 
     public function __construct( $storageConfig )
     {
-        $driver = $storageConfig['driver'];
-        $config = $storageConfig[$driver];
-
-        switch($driver){
-            case 's3':
-                $this->client = new S3Service($config);
-                break;
-            case 'qiniu':
-                $this->client = new QiniuService($config);
-                break;
-        }//end switch
-
+        self::setConfig( $storageConfig );
     }
 
-    //上传文件
-    public function upload( $key, $filePath, $bucket=null ){
-        return $this->client->upload( $key, $filePath, $bucket );
-    }
+    public static function setConfig( $storageConfig ){
 
-    //获取文件url
-    public function getUrl( $key ){
-        return $this->client->getUrl( $key );
-    }
-
-    private static function getClient(){
-
-        if( !is_null(self::$staticClient) )
-            return self::$staticClient;
-
-        $storageConfig = config('mayijuntuan.storage');
         $driver = $storageConfig['driver'];
         $config = $storageConfig[$driver];
         switch($driver){
@@ -56,6 +30,26 @@ final class Client
 
         return self::$staticClient;
 
+    }
+
+    private static function getClient(){
+
+        if( !is_null(self::$staticClient) )
+            return self::$staticClient;
+
+        $storageConfig = config('mayijuntuan.storage');
+        return self::setConfig( $storageConfig );
+
+    }
+
+    //上传文件
+    public function upload( $key, $filePath, $bucket=null ){
+        return self::getClient()->upload( $key, $filePath, $bucket );
+    }
+
+    //获取文件url
+    public function getUrl( $key ){
+        return self::getClient()->getUrl( $key );
     }
 
     //上传文件

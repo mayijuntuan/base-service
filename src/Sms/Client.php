@@ -8,48 +8,17 @@ use Mayijuntuan\Sms\AlibabaService;
 final class Client
 {
 
-    private $client;
     private static $staticClient;
 
-    public function __construct( $storageConfig )
+    public function __construct( $smsConfig )
     {
-        $driver = $storageConfig['driver'];
-        $config = $storageConfig[$driver];
-
-        switch($driver){
-            case 'zsd':
-                $this->client = new ZsdService($config);
-                break;
-            case 'alibaba':
-                $this->client = new AlibabaService($config);
-                break;
-        }//end switch
-
+        self::setConfig( $smsConfig );
     }
 
-    //发送短信
-    public function send( $code, $mobile, $content ){
-        return $this->client->send( $code, $mobile, $content );
-    }
+    public static function setConfig( $smsConfig ){
 
-    //按模板发送短信
-    public function sendTemplate( $code, $mobile, $templateCode, $templateParams ){
-        return $this->client->sendTemplate( $code, $mobile, $templateCode, $templateParams );
-    }
-
-    //获取短信状态
-    public function sendStatus( $msgid ){
-        return $this->client->sendStatus( $msgid );
-    }
-
-    private static function getClient(){
-
-        if( !is_null(self::$staticClient) )
-            return self::$staticClient;
-
-        $storageConfig = config('mayijuntuan.sms');
-        $driver = $storageConfig['driver'];
-        $config = $storageConfig[$driver];
+        $driver = $smsConfig['driver'];
+        $config = $smsConfig[$driver];
         switch($driver){
             case 'zsd':
                 self::$staticClient = new ZsdService($config);
@@ -61,6 +30,31 @@ final class Client
 
         return self::$staticClient;
 
+    }
+
+    private static function getClient(){
+
+        if( !is_null(self::$staticClient) )
+            return self::$staticClient;
+
+        $smsConfig = config('mayijuntuan.sms');
+        return self::setConfig( $smsConfig );
+
+    }
+
+    //发送短信
+    public function send( $code, $mobile, $content ){
+        return self::getClient()->send( $code, $mobile, $content );
+    }
+
+    //按模板发送短信
+    public function sendTemplate( $code, $mobile, $templateCode, $templateParams ){
+        return self::getClient()->sendTemplate( $code, $mobile, $templateCode, $templateParams );
+    }
+
+    //获取短信状态
+    public function sendStatus( $msgid ){
+        return self::getClient()->sendStatus( $msgid );
     }
 
     //发送短信
