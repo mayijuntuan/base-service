@@ -2,6 +2,7 @@
 namespace Mayijuntuan\Sms;
 
 use Mayijuntuan\Sms\ZsdService;
+use Mayijuntuan\Sms\AlibabaService;
 
 
 final class Client
@@ -19,6 +20,9 @@ final class Client
             case 'zsd':
                 $this->client = new ZsdService($config);
                 break;
+            case 'alibaba':
+                $this->client = new AlibabaService($config);
+                break;
         }//end switch
 
     }
@@ -32,12 +36,6 @@ final class Client
     public function sendStatus( $msgid ){
         return $this->client->sendStatus( $msgid );
     }
-
-    //获取余额
-    public function balance(){
-        return $this->client->balance();
-    }
-
 
     private static function getClient(){
 
@@ -57,16 +55,14 @@ final class Client
 
     }
 
+    //发送短信
     public static function staticSend( $code, $mobile, $content ){
         return self::getClient()->send( $code, $mobile, $content );
     }
 
+    //获取短信状态
     public static function staticSendStatus( $msgid ){
         return self::getClient()->sendStatus( $msgid );
-    }
-
-    public static function staticBalance(){
-        return self::getClient()->balance();
     }
 
 }
