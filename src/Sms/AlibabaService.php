@@ -19,7 +19,10 @@ class AlibabaService{
     /**
      * 发送短信
      *
-     * @param $filename
+     * @param $code
+     * @param $mobile
+     * @param $templateCode
+     * @param $templateParams
      * @return string
      */
     public function sendTemplate( $code, $mobile, $templateCode, $templateParams ){

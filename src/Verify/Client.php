@@ -7,55 +7,30 @@ use Mayijuntuan\Verify\GeetestService;
 final class Client
 {
 
-    private static $staticClient;
+    private $client = null;
 
-    public function __construct( $smsConfig )
+    public function __construct( $driver, $config )
     {
-        self::setConfig( $smsConfig );
-    }
 
-    public static function setConfig( $verifyConfig ){
-
-        $driver = $verifyConfig['driver'];
-        $config = $verifyConfig[$driver];
         switch($driver){
             case 'geetest':
-                self::$staticClient = new GeetestService($config);
+                $this->client = new GeetestService($config);
+                break;
+            default:
+                throw new \Exception('Driver ' . $driver . ' does not support' );
                 break;
         }//end switch
-
-        return self::$staticClient;
-
-    }
-
-    private static function getClient(){
-
-        if( !is_null(self::$staticClient) )
-            return self::$staticClient;
-
-        $verifyConfig = config('mayijuntuan.verify');
-        return self::setConfig( $verifyConfig );
 
     }
 
     //获取流水标识
     public function preverify(){
-        return self::getClient()->preverify();
-    }
-
-    //获取流水标识
-    public static function staticPreverify(){
-        return self::getClient()->preverify();
+        return $this->client->preverify();
     }
 
     //验证
     public function verify( $challenge, $validate, $seccode ){
-        return self::getClient()->verify($challenge, $validate, $seccode);
-    }
-
-    //验证
-    public static function staticVerify( $challenge, $validate, $seccode ){
-        return self::getClient()->verify($challenge, $validate, $seccode);
+        return $this->client->verify($challenge, $validate, $seccode);
     }
 
 }

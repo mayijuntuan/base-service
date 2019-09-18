@@ -17,27 +17,34 @@ class S3Service{
 
     private function getClient(){
         if( is_null($this->client) ){
-            $this->client = new S3Client([
+            $params = [
                 'version' => 'latest',
                 'region' => $this->config['region'],
                 'credentials' => [
                     'key' => $this->config['access_key'],
                     'secret' => $this->config['secret_key']
                 ],
-            ]);
+            ];
+            $this->client = new S3Client($params);
         }
         return $this->client;
     }
 
     //上传文件
     public function upload( $key, $filePath, $bucket=null ){
-        return $this->getClient()->putObject([
+
+        if( is_null($bucket) )
+            $bucket = $this->config['bucket'];
+
+        $params = [
             'ACL' => 'public-read',
             'ContentType' => 'image/jpg',
-            'Bucket' => is_null($bucket) ? $this->config['bucket'] : $bucket,
+            'Bucket' => $bucket,
             'Key' => $key,
             'Body' => file_get_contents($filePath)
-        ]);
+        ];
+        return $this->getClient()->putObject($params);
+
     }
 
     //获取文件url

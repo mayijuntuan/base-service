@@ -12,14 +12,12 @@ class ZsdService{
         $this->config = $config;
     }
 
-    private function getConfig(){
-        return $this->config;
-    }
-
     /**
      * 发送短信
      *
-     * @param $filename
+     * @param $code
+     * @param $mobile
+     * @param $content
      * @return string
      */
     public function send( $code, $mobile, $content ){
@@ -29,13 +27,11 @@ class ZsdService{
             return false;
         }
 
-		$config = $this->getConfig();
-
-		$content = $config['sign'] . $content;
+		$content = $this->config['sign'] . $content;
 
 		$params = array(
             'action' => 'send',
-            'userid' => $config['userid'],
+            'userid' => $this->config['userid'],
 			'mobile' => $mobile,
 			'content' => $content,
 			'sendTime' => '',
@@ -64,15 +60,13 @@ class ZsdService{
 
     private function api( $params=[] ){
 
-        $config = $this->getConfig();
-
-        $params['account'] = $config['account'];
-        $params['password'] = $config['password'];
+        $params['account'] = $this->config['account'];
+        $params['password'] = $this->config['password'];
 
         $query = http_build_query($params);
 
         $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL, $config['url'].'?'.$query );
+        curl_setopt($ch,CURLOPT_URL, $this->config['url'].'?'.$query );
         curl_setopt($ch,CURLOPT_HEADER,0);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
         $result = curl_exec($ch);

@@ -18,11 +18,9 @@ class QiniuService{
 
     private function getClient(){
         if( is_null($this->client) ){
-
             $access_key = $this->config['access_key'];
             $secret_key = $this->config['secret_key'];
             $this->client = new Auth( $access_key, $secret_key );
-
         }
         return $this->client;
     }
@@ -30,13 +28,15 @@ class QiniuService{
     //上传文件
     public function upload( $key, $filePath, $bucket=null ){
 
-        $bucket = is_null($bucket) ? $this->config['bucket'] : $bucket;
+        if( is_null($bucket) )
+            $bucket = $this->config['bucket'];
 
         $token = $this->getClient()->uploadToken($bucket);
 
-        $uploadManager = new UploadManager();
-        list( $ret, $err) = $uploadManager->put( $token, $key, file_get_contents($filePath) );
+        $content = file_get_contents($filePath);
 
+        $uploadManager = new UploadManager();
+        list( $ret, $err) = $uploadManager->put( $token, $key, $content );
         if( $err === null )
             return $key;
 

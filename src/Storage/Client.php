@@ -9,61 +9,36 @@ use Mayijuntuan\Storage\S3Service;
 final class Client
 {
 
-    private static $staticClient;
+    private $client = null;
 
-    public function __construct( $storageConfig )
+    public function __construct( $driver, $config )
     {
-        self::setConfig( $storageConfig );
-    }
 
-    public static function setConfig( $storageConfig ){
-
-        $driver = $storageConfig['driver'];
-        $config = $storageConfig[$driver];
         switch($driver){
             case 'oss':
-                self::$staticClient = new OssService($config);
+                $this->client = new OssService($config);
                 break;
             case 'qiniu':
-                self::$staticClient = new QiniuService($config);
+                $this->client = new QiniuService($config);
                 break;
             case 's3':
-                self::$staticClient = new S3Service($config);
+                $this->client = new S3Service($config);
+                break;
+            default:
+                throw new \Exception('Driver ' . $driver . ' does not support' );
                 break;
         }//end switch
-
-        return self::$staticClient;
-
-    }
-
-    private static function getClient(){
-
-        if( !is_null(self::$staticClient) )
-            return self::$staticClient;
-
-        $storageConfig = config('mayijuntuan.storage');
-        return self::setConfig( $storageConfig );
 
     }
 
     //上传文件
     public function upload( $key, $filePath, $bucket=null ){
-        return self::getClient()->upload( $key, $filePath, $bucket );
+        return $this->client->upload( $key, $filePath, $bucket );
     }
 
     //获取文件url
     public function getUrl( $key ){
-        return self::getClient()->getUrl( $key );
-    }
-
-    //上传文件
-    public static function staticUpload( $key, $filePath, $bucket=null ){
-        return self::getClient()->upload( $key, $filePath, $bucket );
-    }
-
-    //获取文件url
-    public static function staticGetUrl( $key ){
-        return self::getClient()->getUrl( $key );
+        return $this->client->getUrl( $key );
     }
 
 }

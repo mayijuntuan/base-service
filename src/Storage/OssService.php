@@ -26,10 +26,15 @@ class OssService{
     }
 
     //上传文件
-    public function upload( $object, $filePath, $bucket=null ){
-        $bucket = is_null($bucket) ? $this->config['bucket'] : $bucket;
+    public function upload( $key, $filePath, $bucket=null ){
+
+        if( is_null($bucket) )
+            $bucket = $this->config['bucket'];
+
         $content = file_get_contents($filePath);
-        return $this->getClient()->putObject( $bucket, $object, $content);
+
+        return $this->getClient()->putObject( $bucket, $key, $content );
+
     }
 
     //获取文件url
