@@ -6,12 +6,12 @@ use Mayijuntuan\Sms\Client;
 
 
 $driver = 'alibaba';
-$config = [
+$alibabaConfig = [
     'accesskey_id' => '',
     'accesskey_secret' => '',
     'sign' => '',
 ];
-$client = new Client( $driver, $config );
+$client = new Client( $driver, $alibabaConfig );
 
 $code = 86;
 $mobile = '';

@@ -5,6 +5,8 @@ use Mayijuntuan\Storage\OssService;
 use Mayijuntuan\Storage\QiniuService;
 use Mayijuntuan\Storage\S3Service;
 
+use Exception;
+
 
 final class Client
 {
@@ -25,7 +27,7 @@ final class Client
                 $this->client = new S3Service($config);
                 break;
             default:
-                throw new \Exception('Driver ' . $driver . ' does not support' );
+                throw new Exception('Driver ' . $driver . ' does not support' );
                 break;
         }//end switch
 

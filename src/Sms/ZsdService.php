@@ -2,6 +2,8 @@
 
 namespace Mayijuntuan\Sms;
 
+use Exception;
+
 
 class ZsdService{
 
@@ -22,10 +24,8 @@ class ZsdService{
      */
     public function send( $code, $mobile, $content ){
 
-        if( $code != '86' ){
-            $this->error = '不支持国际手机号码';
-            return false;
-        }
+        if( $code != '86' )
+            throw new Exception('zsd不支持国际手机号码' );
 
 		$content = $this->config['sign'] . $content;
 
@@ -70,17 +70,15 @@ class ZsdService{
         curl_setopt($ch,CURLOPT_HEADER,0);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
         $result = curl_exec($ch);
-        $httpcode = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-        $curl_error = curl_error($ch);
+        $errorno = curl_errno($ch);
+        $error = curl_error($ch);
+        $code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
         curl_close($ch);
-        if( $curl_error ){
-            $this->error = '请求结果出错'.$curl_error;
-            return false;
-        }
-        if( $httpcode != 200 ){
-            $this->error = '返回http状态码错误'.$httpcode;
-            return false;
-        }
+
+        if( $errorno )
+            throw new Exception('请求返回接口错误'.$errorno.$error );
+        if( $code != 200 )
+            throw new Exception('curl返回状态码错误'.$code );
 
         return $result;
     }

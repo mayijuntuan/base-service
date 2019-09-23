@@ -3,6 +3,8 @@ namespace Mayijuntuan\Verify;
 
 use Mayijuntuan\Verify\GeetestService;
 
+use Exception;
+
 
 final class Client
 {
@@ -17,7 +19,7 @@ final class Client
                 $this->client = new GeetestService($config);
                 break;
             default:
-                throw new \Exception('Driver ' . $driver . ' does not support' );
+                throw new Exception('Driver ' . $driver . ' does not support' );
                 break;
         }//end switch
 
