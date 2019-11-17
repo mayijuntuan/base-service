@@ -1,8 +1,8 @@
 {
     "name": "mayijuntuan/base-service",
-    "homepage": "http://www.mayijuntuan.com",
-    "description": "Mayijuntuan SDK for PHP - Use Mayijuntuan Services in your PHP project",
-    "keywords": ["mayiuntuan", "services", "sms","email","file","pay","crypto"],
+    "homepage": "https://github.com/mayijuntuan/base-service",
+    "description": "Mayijuntuan Base Services in your PHP project",
+    "keywords": ["mayiuntuan", "services", "sms","email","storage"],
     "license": "Apache-2.0",
     "type": "library",
     "authors": [
