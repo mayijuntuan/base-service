@@ -4,6 +4,7 @@ namespace Mayijuntuan\Storage;
 
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
+use Qiniu\Storage\BucketManager;
 
 
 class QiniuService{
@@ -26,7 +27,7 @@ class QiniuService{
     }
 
     //上传文件
-    public function upload( $key, $filePath, $bucket=null ){
+    public function uploadFile( $key, $filePath, $bucket=null ){
 
         if( is_null($bucket) )
             $bucket = $this->config['bucket'];
@@ -44,8 +45,20 @@ class QiniuService{
 
     }
 
+    //文件列表
+    public function listFiles( $prefix, $bucket ){
+
+        if( is_null($bucket) )
+            $bucket = $this->config['bucket'];
+
+        $bucketManager = new BucketManager();
+        $list = $bucketManager->listFiles( $bucket, $prefix );
+        return $list;
+
+    }
+
     //获取文件url
-    public function getUrl($filename){
+    public function getFileUrl($filename){
         if( empty($filename) || strpos($filename, 'http://') === 0 || strpos($filename, 'https://') === 0)
             return $filename;
         return $this->config['url'] . $filename;

@@ -35,12 +35,17 @@ final class Client
 
     //上传文件
     public function upload( $key, $filePath, $bucket=null ){
-        return $this->client->upload( $key, $filePath, $bucket );
+        return $this->client->uploadFile( $key, $filePath, $bucket );
+    }
+
+    //文件列表
+    public function listFiles( $prefix='', $bucket=null ){
+        return $this->client->listFiles( $prefix, $bucket );
     }
 
     //获取文件url
     public function getUrl( $key ){
-        return $this->client->getUrl( $key );
+        return $this->client->getFileUrl( $key );
     }
 
 }

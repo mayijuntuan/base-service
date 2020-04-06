@@ -31,7 +31,7 @@ class S3Service{
     }
 
     //上传文件
-    public function upload( $key, $filePath, $bucket=null ){
+    public function uploadFile( $key, $filePath, $bucket=null ){
 
         if( is_null($bucket) )
             $bucket = $this->config['bucket'];
@@ -47,8 +47,23 @@ class S3Service{
 
     }
 
+    //文件列表
+    public function listFiles( $prefix='', $bucket=null ){
+
+        if( is_null($bucket) )
+            $bucket = $this->config['bucket'];
+
+        $params = [
+            'ACL' => 'public-read',
+            'ContentType' => 'image/jpg',
+            'Bucket' => $bucket
+        ];
+        return $this->getClient()->listObjects( $params );
+
+    }
+
     //获取文件url
-    public function getUrl($filename){
+    public function getFileUrl($filename){
         if( empty($filename) || strpos($filename, 'http://') === 0 || strpos($filename, 'https://') === 0)
             return $filename;
         return $this->config['url'] . $filename;
