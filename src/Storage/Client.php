@@ -8,13 +8,11 @@ use Mayijuntuan\Storage\S3Service;
 use Exception;
 
 
-final class Client
-{
+final class Client{
 
     private $client = null;
 
-    public function __construct( $driver, $config )
-    {
+    public function __construct( $driver, $config ){
 
         switch($driver){
             case 'oss':
@@ -33,15 +31,23 @@ final class Client
 
     }
 
-    //上传文件
+    //上传
     public function upload( $key, $filePath, $bucket=null ){
-        return $this->client->uploadFile( $key, $filePath, $bucket );
+        return $this->client->upload( $key, $filePath, $bucket );
     }
 
-    //文件列表
-    public function listFiles( $prefix='', $bucket=null ){
+    //列表
+    public function getList( $prefix='', $bucket=null ){
 
-        $objectListInfo = $this->client->listFiles( $prefix, $bucket );
+        $objectListInfo = $this->client->getList( $prefix, $bucket );
+
+        $bucketName = $objectListInfo->getBucketName();
+        $prefix = $objectListInfo->getPrefix();
+        $marker = $objectListInfo->getMarker();
+        $nextMarker = $objectListInfo->getNextMarker();
+        $maxKeys = $objectListInfo->getMaxKeys();
+        $delimiter = $objectListInfo->getDelimiter();
+        $isTruncated = $objectListInfo->getIsTruncated();
 
         $objectList = $objectListInfo->getObjectList();
         $allObjectList = [];
@@ -64,14 +70,6 @@ final class Client
             ];
         }//end foreach
 
-        $bucketName = $objectListInfo->getBucketName();
-        $prefix = $objectListInfo->getPrefix();
-        $marker = $objectListInfo->getMarker();
-        $nextMarker = $objectListInfo->getNextMarker();
-        $maxKeys = $objectListInfo->getMaxKeys();
-        $delimiter = $objectListInfo->getDelimiter();
-        $isTruncated = $objectListInfo->getIsTruncated();
-
         return [
             'bucketName' => $bucketName,
             'prefix' => $prefix,
@@ -86,9 +84,14 @@ final class Client
 
     }
 
-    //获取文件url
+    //获取url
     public function getUrl( $key ){
-        return $this->client->getFileUrl( $key );
+        return $this->client->getUrl( $key );
+    }
+
+    //删除
+    public function delete( $key ){
+        return $this->client->delete( $key );
     }
 
 }

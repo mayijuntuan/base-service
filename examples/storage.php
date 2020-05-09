@@ -16,12 +16,19 @@ $config = [
 $client = new Client( $driver, $config );
 
 
-$prefix = '';
-$res = $client->listFiles( $prefix );
+$key = 'df4ff220d996fdb3373675518f78c14d.jpg';
+$res = $client->delete( $key );
 var_dump($res);
 
 
+$prefix = '';
+$res = $client->getList( $prefix );
+var_dump($res);
+
+
+exit;
+
 $key = 'abcd.jpg';
-$filePath = '';
+$filePath = './abcd.jpg';
 $res = $client->upload( $key, $filePath );
 var_dump($res);

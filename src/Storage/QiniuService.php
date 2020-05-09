@@ -12,8 +12,7 @@ class QiniuService{
     private $config;
     private $client = null;
 
-    public function __construct($config)
-    {
+    public function __construct( $config ){
         $this->config = $config;
     }
 
@@ -26,8 +25,8 @@ class QiniuService{
         return $this->client;
     }
 
-    //上传文件
-    public function uploadFile( $key, $filePath, $bucket=null ){
+    //上传
+    public function upload( $key, $filePath, $bucket=null ){
 
         if( is_null($bucket) )
             $bucket = $this->config['bucket'];
@@ -45,23 +44,33 @@ class QiniuService{
 
     }
 
-    //文件列表
-    public function listFiles( $prefix, $bucket ){
+    //列表
+    public function getList( $prefix, $bucket=null ){
 
         if( is_null($bucket) )
             $bucket = $this->config['bucket'];
 
         $bucketManager = new BucketManager();
-        $list = $bucketManager->listFiles( $bucket, $prefix );
-        return $list;
+        return $bucketManager->listFiles( $bucket, $prefix );
 
     }
 
-    //获取文件url
-    public function getFileUrl($filename){
-        if( empty($filename) || strpos($filename, 'http://') === 0 || strpos($filename, 'https://') === 0)
-            return $filename;
-        return $this->config['url'] . $filename;
+    //获取url
+    public function getUrl( $key ){
+        if( empty($key) || strpos($key, 'http://') === 0 || strpos($key, 'https://') === 0)
+            return $key;
+        return $this->config['url'] . $key;
+    }
+
+    //删除
+    public function delete( $key, $bucket=null ){
+
+        if( is_null($bucket) )
+            $bucket = $this->config['bucket'];
+
+        $bucketManager = new BucketManager();
+        return $bucketManager->delete( $bucket, $key );
+
     }
 
 }
