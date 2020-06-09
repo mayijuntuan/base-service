@@ -31,7 +31,7 @@ class OssService{
 
     //创建bucket
     public function createBucket( $bucket ){
-        return $this->getClient()->createBucket( $bucket );
+        return $this->getClient()->createBucket( $bucket, OssClient::OSS_ACL_TYPE_PUBLIC_READ );
     }
 
     //删除bucket
