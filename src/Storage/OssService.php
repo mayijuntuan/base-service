@@ -10,8 +10,7 @@ class OssService{
     private $config;
     private $client = null;
 
-    public function __construct($config)
-    {
+    public function __construct( $config ){
         $this->config = $config;
     }
 
@@ -23,6 +22,21 @@ class OssService{
             $this->client = new OssClient($accessKeyId, $accessKeySecret, $endpoint);
         }
         return $this->client;
+    }
+
+    //bucket列表
+    public function listBuckets(){
+        return $this->getClient()->listBuckets();
+    }
+
+    //创建bucket
+    public function createBucket( $bucket ){
+        return $this->getClient()->createBucket( $bucket );
+    }
+
+    //删除bucket
+    public function deleteBucket( $bucket ){
+        return $this->getClient()->deleteBucket( $bucket );
     }
 
     //上传

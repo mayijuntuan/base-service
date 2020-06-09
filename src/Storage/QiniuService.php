@@ -38,7 +38,7 @@ class QiniuService{
         $uploadManager = new UploadManager();
         list( $ret, $err) = $uploadManager->put( $token, $key, $content );
         if( $err === null )
-            return $key;
+            return $ret;
 
         return false;
 

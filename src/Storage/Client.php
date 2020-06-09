@@ -1,9 +1,6 @@
 <?php
-namespace Mayijuntuan\Storage;
 
-use Mayijuntuan\Storage\OssService;
-use Mayijuntuan\Storage\QiniuService;
-use Mayijuntuan\Storage\S3Service;
+namespace Mayijuntuan\Storage;
 
 use Exception;
 
@@ -29,6 +26,21 @@ final class Client{
                 break;
         }//end switch
 
+    }
+
+    //bucket列表
+    public function listBuckets(){
+        return $this->client->listBuckets();
+    }
+
+    //创建bucket
+    public function createBucket( $bucket ){
+        return $this->client->createBucket( $bucket );
+    }
+
+    //删除bucket
+    public function deleteBucket( $bucket ){
+        return $this->client->deleteBucket( $bucket );
     }
 
     //上传

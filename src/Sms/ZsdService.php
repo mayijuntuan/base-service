@@ -9,25 +9,17 @@ class ZsdService{
 
     private $config;
 
-    public function __construct($config)
-    {
+    public function __construct( $config ){
         $this->config = $config;
     }
 
-    /**
-     * 发送短信
-     *
-     * @param $code
-     * @param $mobile
-     * @param $content
-     * @return string
-     */
+    //发送短信
     public function send( $code, $mobile, $content ){
 
         if( $code != '86' )
             throw new Exception('zsd不支持国际手机号码' );
 
-		$content = $this->config['sign'] . $content;
+		$content = '【' . $this->config['sign'] . '】' . $content;
 
 		$params = array(
             'action' => 'send',

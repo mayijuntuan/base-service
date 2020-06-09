@@ -3,28 +3,17 @@
 namespace Mayijuntuan\Sms;
 
 use AlibabaCloud\Client\AlibabaCloud;
-use AlibabaCloud\Client\Exception\ClientException;
-use AlibabaCloud\Client\Exception\ServerException;
 
 
 class AlibabaService{
 
     private $config;
 
-    public function __construct($config)
-    {
+    public function __construct( $config ){
         $this->config = $config;
     }
 
-    /**
-     * 发送短信
-     *
-     * @param $code
-     * @param $mobile
-     * @param $templateCode
-     * @param $templateParams
-     * @return string
-     */
+    //发送短信
     public function sendTemplate( $code, $mobile, $templateCode, $templateParams ){
 
         if( $code != '86' )
