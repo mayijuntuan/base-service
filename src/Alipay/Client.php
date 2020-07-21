@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Alipay;
+namespace Mayijuntuan\Alipay;
 
 use Mayijuntuan\Alipay\Request\AlipaySystemOauthTokenRequest;
 use Mayijuntuan\Alipay\Request\AlipayUserInfoShareRequest;
