@@ -33,17 +33,14 @@ class Client{
 
     public function __construct( $config ){
         $this->AopClient = new AopClient();
-        $this->setAliapyPublicKey();
         $this->setAppId($config['app_id']);
         $this->setPrivateKey($config['private_key']);
         $this->setPublicKey($config['public_key']);
-        $this->setCharset($config['charset']);
-        $this->setSignType($config['sign_type']);
+        $this->setAliapyPublicKey();
+        $this->setCharset();
+        $this->setSignType();
     }
 
-    private function setAliapyPublicKey(){
-        $this->AopClient->alipayrsaPublicKey = $this->alipay_public_key;
-    }
 
     private function setAppId($app_id){
         $this->app_id = $app_id;
@@ -59,14 +56,16 @@ class Client{
         $this->public_key = $public_key;
     }
 
-    private function setCharset($charset){
-        $this->charset = $charset;
-        $this->AopClient->charset = $charset;
+    private function setAliapyPublicKey(){
+        $this->AopClient->alipayrsaPublicKey = $this->alipay_public_key;
     }
 
-    private function setSignType($sign_type){
-        $this->sign_type = $sign_type;
-        $this->AopClient->signType = $sign_type;
+    private function setCharset(){
+        $this->AopClient->charset = $this->charset;
+    }
+
+    private function setSignType(){
+        $this->AopClient->signType = $this->sign_type;
     }
 
 
