@@ -1,4 +1,8 @@
 <?php
+
+namespace Mayijuntuan\Alipay\Request;
+
+
 /**
  * ALIPAY API: alipay.eco.cplife.useridentity.status.update request
  *

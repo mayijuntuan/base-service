@@ -1,4 +1,8 @@
 <?php
+
+namespace Mayijuntuan\Alipay\Request;
+
+
 /**
  * ALIPAY API: zhima.open.app.keyan.lql.create request
  *

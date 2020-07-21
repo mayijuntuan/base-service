@@ -1,4 +1,8 @@
 <?php
+
+namespace Mayijuntuan\Alipay\Request;
+
+
 /**
  * ALIPAY API: alipay.flashsales.stock.sync.update request
  *

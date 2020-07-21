@@ -27,9 +27,6 @@
         "phpunit/phpunit": "~4.0"
     },
     "autoload": {
-        "classmap": [
-            "src/Alipay/Request"
-        ],
         "psr-4": {
             "Mayijuntuan\\": "src/"
         }
