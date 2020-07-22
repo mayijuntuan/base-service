@@ -285,6 +285,9 @@ class Client{
         if( empty($result->$responseNode) ){
             throw new Exception('支付宝接口错误:' . $result->error_response->sub_msg );
         }
+        if( empty($result->$responseNode->code) || $result->$responseNode->code != 10000 ){
+            throw new Exception('支付宝接口返回状态码错误:' . json_encode($result->$responseNode) );
+        }
         return $result->$responseNode;
     }
 
