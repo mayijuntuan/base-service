@@ -10,6 +10,7 @@ use Mayijuntuan\Alipay\Requests\AlipayTradeCreateRequest;
 use Mayijuntuan\Alipay\Requests\AlipayTradeRefundRequest;
 
 use Mayijuntuan\Alipay\Requests\AlipayOpenAuthTokenAppRequest;
+use Mayijuntuan\Alipay\Requests\AlipayOpenAuthTokenAppQueryRequest;
 
 use Mayijuntuan\Alipay\Requests\AlipayOpenPublicInfoQueryRequest;
 use Mayijuntuan\Alipay\Requests\AlipayOpenPublicInfoModifyRequest;
@@ -142,6 +143,17 @@ class Client{
         $content = array(
             'grant_type' => 'authorization_code',
             'code' => $app_auth_code,
+        );
+        $content = json_encode($content);
+        $request->setBizContent($content);
+        return $this->execute( $request );
+    }
+
+    //获取app授权的权限信息
+    public function OpenAuthTokenAppQuery( $app_auth_token ){
+        $request = new AlipayOpenAuthTokenAppQueryRequest();
+        $content = array(
+            'app_auth_token' => $app_auth_token,
         );
         $content = json_encode($content);
         $request->setBizContent($content);
