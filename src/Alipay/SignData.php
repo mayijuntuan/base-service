@@ -3,11 +3,10 @@
 namespace Mayijuntuan\Alipay;
 
 
-class SignData {
+class SignData
+{
+    public $signSourceData = null;
 
-    public $signSourceData=null;
-
-
-    public $sign=null;
+    public $sign = null;
 
 } 

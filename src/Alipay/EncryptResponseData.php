@@ -3,12 +3,10 @@
 namespace Mayijuntuan\Alipay;
 
 
-class EncryptResponseData {
+class EncryptResponseData
+{
+    public $realContent;
 
-
-	public $realContent;
-
-	public $returnContent;
-
+    public $returnContent;
 
 } 

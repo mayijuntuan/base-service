@@ -3,13 +3,12 @@
 namespace Mayijuntuan\Alipay;
 
 
-class EncryptParseItem {
+class EncryptParseItem
+{
+    public $startIndex;
 
+    public $endIndex;
 
-	public $startIndex;
-
-	public $endIndex;
-
-	public $encryptContent;
+    public $encryptContent;
 
 } 

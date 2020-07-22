@@ -2,18 +2,22 @@
 
 namespace Mayijuntuan\Alipay;
 
-use Mayijuntuan\Alipay\Request\AlipaySystemOauthTokenRequest;
-use Mayijuntuan\Alipay\Request\AlipayUserInfoShareRequest;
+use Mayijuntuan\Alipay\Requests\AlipaySystemOauthTokenRequest;
+use Mayijuntuan\Alipay\Requests\AlipayUserInfoShareRequest;
 
-use Mayijuntuan\Alipay\Request\AlipayOpenAuthTokenAppRequest;
-use Mayijuntuan\Alipay\Request\AlipayOpenPublicInfoQueryRequest;
-use Mayijuntuan\Alipay\Request\AlipayOpenPublicInfoModifyRequest;
-use Mayijuntuan\Alipay\Request\AlipayOpenPublicFollowBatchqueryRequest;
-use Mayijuntuan\Alipay\Request\AlipayOpenPublicMenuBatchqueryRequest;
+use Mayijuntuan\Alipay\Requests\AlipayTradeWapPayRequest;
+use Mayijuntuan\Alipay\Requests\AlipayTradeCreateRequest;
+use Mayijuntuan\Alipay\Requests\AlipayTradeRefundRequest;
 
-use Mayijuntuan\Alipay\Request\AlipayTradeWapPayRequest;
-use Mayijuntuan\Alipay\Request\AlipayTradeCreateRequest;
-use Mayijuntuan\Alipay\Request\AlipayTradeRefundRequest;
+use Mayijuntuan\Alipay\Requests\AlipayOpenAuthTokenAppRequest;
+
+use Mayijuntuan\Alipay\Requests\AlipayOpenPublicInfoQueryRequest;
+use Mayijuntuan\Alipay\Requests\AlipayOpenPublicInfoModifyRequest;
+use Mayijuntuan\Alipay\Requests\AlipayOpenPublicFollowBatchqueryRequest;
+use Mayijuntuan\Alipay\Requests\AlipayOpenPublicMenuBatchqueryRequest;
+
+use Mayijuntuan\Alipay\Requests\AlipayOpenMiniBaseinfoQueryRequest;
+use Mayijuntuan\Alipay\Requests\AlipayOpenMiniBaseinfoModifyRequest;
 
 use Exception;
 
@@ -21,51 +25,48 @@ use Exception;
 class Client{
 
     private $AopClient = null;
-    private $auth_url = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm';
-    private $app_auth_url = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm';
-    private $alipay_public_key = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqilBTZlhe2pXhwUyvhagm7s3u/ZNBK4TgBu1MFL+7LHTeP+zDgLQ9l/Z0GSskCqx65inv1u7gsav40p6nSR/m4eV5ZFNHT3F8W6Y/u0XNncqcEhWQfwl12cBEfp/m9D4ybE14hPNCxivhw2YNLi8/U8fhdViG7+BGEuI5BFfx0Scim/1XovwuwF083Np5vbHdTvb0/JzRl43VcJQ5YXqJyI850RRnoTD4x+b6/b9X3tGxV7REOcRHoBWhPUuB18/0QlX9hkGxn9A2UCwXaZjRXdEv/MVyv3C2mwRsLKM9ImYJM2jPdpUQqyq2S1AQP0dGPufJa6eXS6C9+Fh2n+0owIDAQAB';
 
     private $app_id = '';
     private $private_key = '';
     private $public_key = '';
+    private $alipay_public_key = '';
     private $charset = 'utf-8';
     private $sign_type = 'RSA2';
 
-    public function __construct( $config ){
+    public function __construct(){
         $this->AopClient = new AopClient();
-        $this->setAppId($config['app_id']);
-        $this->setPrivateKey($config['private_key']);
-        $this->setPublicKey($config['public_key']);
-        $this->setAliapyPublicKey();
-        $this->setCharset();
-        $this->setSignType();
+        $this->AopClient->charset = $this->charset;
+        $this->AopClient->signType = $this->sign_type;
     }
 
-
-    private function setAppId($app_id){
+    public function setAppId($app_id){
         $this->app_id = $app_id;
         $this->AopClient->appId = $app_id;
     }
 
-    private function setPrivateKey($private_key){
+    public function setPrivateKey($private_key){
         $this->private_key = $private_key;
         $this->AopClient->rsaPrivateKey = $private_key;
     }
 
-    private function setPublicKey($public_key){
+    public function setPublicKey($public_key){
         $this->public_key = $public_key;
+        $this->AopClient->rsaPublicKey = $public_key;
     }
 
-    private function setAliapyPublicKey(){
-        $this->AopClient->alipayrsaPublicKey = $this->alipay_public_key;
+    public function setAliapyPublicKey($alipay_public_key){
+        $this->alipay_public_key = $alipay_public_key;
+        $this->AopClient->alipayrsaPublicKey = $alipay_public_key;
     }
 
-    private function setCharset(){
+    public function setCharset($charset){
+        $this->charset = $charset;
         $this->AopClient->charset = $this->charset;
     }
 
-    private function setSignType(){
-        $this->AopClient->signType = $this->sign_type;
+    public function setSignType($signType){
+        $this->sign_type = $signType;
+        $this->AopClient->signType = $signType;
     }
 
 
@@ -73,11 +74,12 @@ class Client{
     public function getAuthUrl( $redirect_uri, $scope, $state='' ){
         $app_id = $this->app_id;
         $redirect_uri = urlencode($redirect_uri);
-        return $this->auth_url . '?app_id=' . $app_id . '&scope=' . $scope . '&redirect_uri=' . $redirect_uri . '&state=' . $state;
+        $auth_url = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm';
+        return $auth_url . '?app_id=' . $app_id . '&scope=' . $scope . '&redirect_uri=' . $redirect_uri . '&state=' . $state;
     }
 
     //获取授权token
-    public function getAuthToken( $auth_code ){
+    public function SystemOauthToken( $auth_code ){
         $request = new AlipaySystemOauthTokenRequest();
         $request->setCode ( $auth_code );
         $request->setGrantType ( 'authorization_code' );
@@ -85,13 +87,13 @@ class Client{
     }
 
     //获取用户信息
-    public function getUserInfo( $access_token ){
+    public function UserInfoShare( $access_token ){
         $request = new AlipayUserInfoShareRequest();
         return $this->execute( $request, $access_token );
     }
 
     //发起网页支付
-    public function tradeWapPay( $params, $notify_url, $return_url ){
+    public function TradeWapPay( $params, $notify_url, $return_url ){
         $request = new AlipayTradeWapPayRequest();
         $content = json_encode($params);
         $request->setBizContent($content);
@@ -101,7 +103,7 @@ class Client{
     }
 
     //支付下单
-    public function tradeCreate( $params, $notify_url ){
+    public function TradeCreate( $params, $notify_url ){
         $request = new AlipayTradeCreateRequest();
         $content = json_encode($params);
         $request->setBizContent($content);
@@ -110,27 +112,32 @@ class Client{
     }
 
     //退款
-    public function tradeRefund( $params ){
+    public function TradeRefund( $params ){
         $request = new AlipayTradeRefundRequest();
         $content = json_encode($params);
         $request->setBizContent($content);
         return $this->execute( $request );
     }
 
-    //支付回调
-    public function payNotify(){
-        return $this->AopClient->rsaCheckV1( $_POST, null, $this->sign_type );
-    }
 
     //获取app授权url
-    public function getAppAuthUrl( $redirect_uri ){
+    public function getAppAuthUrl( $redirect_uri, $application_type='MOBILEAPP,WEBAPP,PUBLICAPP,TINYAPP,ARAPP', $state='' ){
         $app_id = $this->app_id;
         $redirect_uri = urlencode($redirect_uri);
-        return $this->app_auth_url . '?app_id=' . $app_id . '&redirect_uri=' . $redirect_uri;
+        $auth_url = 'https://openauth.alipay.com/oauth2/appToAppAuth.htm';
+        return $auth_url . '?app_id=' . $app_id . '&redirect_uri=' . $redirect_uri . '&application_type=' . $application_type . '&state=' . $state;
+    }
+
+    //获取app批量授权url
+    public function getAppBatchAuthUrl( $redirect_uri, $application_type='MOBILEAPP,WEBAPP,PUBLICAPP,TINYAPP,ARAPP', $state='' ){
+        $app_id = $this->app_id;
+        $redirect_uri = urlencode($redirect_uri);
+        $auth_url = 'https://openauth.alipay.com/oauth2/appToAppBatchAuth.htm';
+        return $auth_url . '?app_id=' . $app_id . '&redirect_uri=' . $redirect_uri . '&application_type=' . $application_type . '&state=' . $state;
     }
 
     //获取app授权token
-    public function getAppAuthToken( $app_auth_code ){
+    public function OpenAuthTokenApp( $app_auth_code ){
         $request = new AlipayOpenAuthTokenAppRequest();
         $content = array(
             'grant_type' => 'authorization_code',
@@ -141,35 +148,55 @@ class Client{
         return $this->execute( $request );
     }
 
-    //获取app信息
-    public function getAppInfo( $app_auth_token ){
+    //获取生活号信息
+    public function OpenPublicInfoQuery( $app_auth_token ){
         $request = new AlipayOpenPublicInfoQueryRequest();
         return $this->execute( $request, null, $app_auth_token );
     }
 
-    //修改app信息
-    public function modifyAppInfo( $params ){
+    //修改生活号信息
+    public function OpenPublicInfoModify( $app_auth_token, $params ){
         $request = new AlipayOpenPublicInfoModifyRequest();
         $content = json_encode($params);
         $request->setBizContent($content);
-        return $this->execute( $request );
+        return $this->execute( $request, null, $app_auth_token );
     }
 
-    //获取app粉丝
-    public function getAppFllow( $next_user_id='' ){
+    //获取生活号粉丝
+    public function OpenPublicFollowBatchquery( $app_auth_token, $next_user_id='' ){
         $request = new AlipayOpenPublicFollowBatchqueryRequest();
         $content = array(
             'next_user_id' => $next_user_id,
         );
         $content = json_encode($content);
         $request->setBizContent($content);
-        return $this->execute( $request );
+        return $this->execute( $request, null, $app_auth_token );
     }
 
-    //获取app菜单
-    public function getAppMenu(){
+    //获取生活号菜单
+    public function OpenPublicMenuBatchquery( $app_auth_token ){
         $request = new AlipayOpenPublicMenuBatchqueryRequest();
-        return $this->execute( $request );
+        return $this->execute( $request, null, $app_auth_token );
+    }
+
+    //获取小程序信息
+    public function OpenMiniBaseinfoQuery( $app_auth_token ){
+        $request = new AlipayOpenMiniBaseinfoQueryRequest();
+        return $this->execute( $request, null, $app_auth_token );
+    }
+
+    //修改小程序信息
+    public function OpenMiniBaseinfoModify( $app_auth_token, $params ){
+        $request = new AlipayOpenMiniBaseinfoModifyRequest();
+        $content = json_encode($params);
+        $request->setBizContent($content);
+        return $this->execute( $request, null, $app_auth_token );
+    }
+
+
+    //回调校验
+    public function rsaCheckV1(){
+        return $this->AopClient->rsaCheckV1( $_POST, null, $this->sign_type );
     }
 
     //消息网关
@@ -206,7 +233,7 @@ class Client{
 
     }
 
-    private function gateway_service_check( $is_sign_success ){
+    public function gateway_service_check( $is_sign_success ){
 
         $private_key = $this->private_key;
         $public_key = $this->public_key;
@@ -240,7 +267,7 @@ class Client{
     }
 
     //执行请求
-    private function execute( $request, $auth_token=null, $app_auth_token=null){
+    public function execute( $request, $auth_token=null, $app_auth_token=null){
         $result = $this->AopClient->execute( $request, $auth_token, $app_auth_token );
         $responseNode = str_replace( '.', '_', $request->getApiMethodName()) . '_response';
         if( empty($result->$responseNode) ){
