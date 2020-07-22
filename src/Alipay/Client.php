@@ -55,7 +55,7 @@ class Client{
         $this->AopClient->rsaPublicKey = $public_key;
     }
 
-    public function setAliapyPublicKey($alipay_public_key){
+    public function setAlipayPublicKey($alipay_public_key){
         $this->alipay_public_key = $alipay_public_key;
         $this->AopClient->alipayrsaPublicKey = $alipay_public_key;
     }
