@@ -31,6 +31,14 @@ class OpenClient{
         $this->aeskey = $aeskey;
     }
 
+    //获取app授权url
+    public function getAppAuthUrl( $redirect_uri, $pre_auth_code, $auth_type='' ){
+        $appid = $this->appid;
+        $redirect_uri = urlencode($redirect_uri);
+        $auth_url = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage';
+        return $auth_url . '?component_appid=' . $appid . '&redirect_uri=' . $redirect_uri . '&pre_auth_code=' . $pre_auth_code . '&auth_type=' . $auth_type;
+    }
+
 
     //解密
     public function decryptxml(){

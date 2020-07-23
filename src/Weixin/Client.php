@@ -10,6 +10,8 @@ class Client{
     private $api_url = 'https://api.weixin.qq.com';
     private $appid = '';
     private $secret = '';
+    private $token = '';
+    private $aeskey = '';
 
     public function setAppid($appid){
         $this->appid = $appid;
@@ -19,6 +21,23 @@ class Client{
         $this->secret = $secret;
     }
 
+    public function setToken($token){
+        $this->token = $token;
+    }
+
+    public function setAeskey($aeskey){
+        $this->aeskey = $aeskey;
+    }
+
+
+    //获取授权url
+    public function getAuthUrl( $redirect_uri, $scope, $state='' ){
+        $appid = $this->appid;
+        $redirect_uri = urlencode($redirect_uri);
+        $response_type = 'code';
+        $auth_url = 'https://open.weixin.qq.com/connect/oauth2/authorize';
+        return $auth_url . '?appid=' . $appid . '&redirect_uri=' . $redirect_uri . '&response_type=' . $response_type . '&scope=' . $scope . '&state=' . $state . '#wechat_redirect';
+    }
 
     public function jscode2session( $code ){
 
