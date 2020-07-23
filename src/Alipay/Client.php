@@ -29,7 +29,6 @@ class Client{
 
     private $app_id = '';
     private $private_key = '';
-    private $public_key = '';
     private $alipay_public_key = '';
     private $charset = 'utf-8';
     private $sign_type = 'RSA2';
@@ -48,11 +47,6 @@ class Client{
     public function setPrivateKey($private_key){
         $this->private_key = $private_key;
         $this->AopClient->rsaPrivateKey = $private_key;
-    }
-
-    public function setPublicKey($public_key){
-        $this->public_key = $public_key;
-        $this->AopClient->rsaPublicKey = $public_key;
     }
 
     public function setAlipayPublicKey($alipay_public_key){
@@ -248,14 +242,14 @@ class Client{
     public function gateway_service_check( $is_sign_success ){
 
         $private_key = $this->private_key;
-        $public_key = $this->public_key;
+        $alipay_public_key = $this->alipay_public_key;
         $sign_type = $this->sign_type;
         $charset = $this->charset;
 
         if ( $is_sign_success ) {
-            $response_xml = "<success>true</success><biz_content>" . $public_key . "</biz_content>";
+            $response_xml = "<success>true</success><biz_content>" . $alipay_public_key . "</biz_content>";
         } else { // echo $response_xml;
-            $response_xml = "<success>false</success><error_code>VERIFY_FAILED</error_code><biz_content>" . $public_key . "</biz_content>";
+            $response_xml = "<success>false</success><error_code>VERIFY_FAILED</error_code><biz_content>" . $alipay_public_key . "</biz_content>";
         }
         $sign = $this->sign( $response_xml, $private_key, $sign_type );
         $return_xml = "<?xml version=\"1.0\" encoding=\"" . $charset . "\"?><alipay><response>" . $response_xml . "</response><sign>" . $sign . "</sign><sign_type>" . $sign_type . "</sign_type></alipay>";
