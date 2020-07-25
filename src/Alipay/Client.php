@@ -91,13 +91,13 @@ class Client{
         $request = new AlipaySystemOauthTokenRequest();
         $request->setCode ( $auth_code );
         $request->setGrantType ( 'authorization_code' );
-        return $this->execute( $request );
+        return $this->execute( $request, null, $this->app_auth_token );
     }
 
     //获取用户信息
     public function UserInfoShare( $access_token ){
         $request = new AlipayUserInfoShareRequest();
-        return $this->execute( $request, $access_token );
+        return $this->execute( $request, $access_token, $this->app_auth_token );
     }
 
     //发起网页支付
@@ -107,7 +107,7 @@ class Client{
         $request->setBizContent($content);
         $request->setNotifyUrl($notify_url);
         $request->setReturnUrl($return_url);
-        return $this->AopClient->pageExecute($request);
+        return $this->AopClient->pageExecute( $request, null, $this->app_auth_token );
     }
 
     //支付下单
@@ -116,7 +116,7 @@ class Client{
         $content = json_encode($params);
         $request->setBizContent($content);
         $request->setNotifyUrl($notify_url);
-        return $this->execute( $request );
+        return $this->execute( $request, null, $this->app_auth_token );
     }
 
     //退款
@@ -124,7 +124,7 @@ class Client{
         $request = new AlipayTradeRefundRequest();
         $content = json_encode($params);
         $request->setBizContent($content);
-        return $this->execute( $request );
+        return $this->execute( $request, null, $this->app_auth_token );
     }
 
 
@@ -287,9 +287,6 @@ class Client{
 
     //执行请求
     public function execute( $request, $auth_token=null, $app_auth_token=null){
-        if( !is_null($this->app_auth_token) ){
-            $app_auth_token = $this->app_auth_token;
-        }
         $result = $this->AopClient->execute( $request, $auth_token, $app_auth_token );
         $responseNode = str_replace( '.', '_', $request->getApiMethodName()) . '_response';
         if( empty($result->$responseNode) ){
