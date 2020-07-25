@@ -26,6 +26,8 @@ use Exception;
 class Client{
 
     private $AopClient = null;
+    private $app_auth_token = null;
+    private $auth_app_id = null;
 
     private $app_id = '';
     private $private_key = '';
@@ -37,6 +39,14 @@ class Client{
         $this->AopClient = new AopClient();
         $this->AopClient->charset = $this->charset;
         $this->AopClient->signType = $this->sign_type;
+    }
+
+    public function setAppAuthToken( $app_auth_token ){
+        $this->app_auth_token = $app_auth_token;
+    }
+
+    public function setAuthAppId( $auth_app_id ){
+        $this->auth_app_id = $auth_app_id;
     }
 
     public function setAppId($app_id){
@@ -68,6 +78,9 @@ class Client{
     //获取授权url
     public function getAuthUrl( $redirect_uri, $scope, $state='' ){
         $app_id = $this->app_id;
+        if( !is_null($this->auth_app_id) ){
+            $app_id = $this->auth_app_id;
+        }
         $redirect_uri = urlencode($redirect_uri);
         $auth_url = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm';
         return $auth_url . '?app_id=' . $app_id . '&scope=' . $scope . '&redirect_uri=' . $redirect_uri . '&state=' . $state;
@@ -274,6 +287,9 @@ class Client{
 
     //执行请求
     public function execute( $request, $auth_token=null, $app_auth_token=null){
+        if( !is_null($this->app_auth_token) ){
+            $app_auth_token = $this->app_auth_token;
+        }
         $result = $this->AopClient->execute( $request, $auth_token, $app_auth_token );
         $responseNode = str_replace( '.', '_', $request->getApiMethodName()) . '_response';
         if( empty($result->$responseNode) ){
