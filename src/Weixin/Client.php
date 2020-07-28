@@ -13,12 +13,11 @@ class Client{
     private $component_secret = null;
     private $component_token = null;
     private $component_aeskey = null;
-    private $component_access_token = null;
+
     private $appid = null;
     private $secret = null;
     private $token = null;
     private $aeskey = null;
-    private $access_token = null;
 
 
     public function setComponentAppid( $component_appid ){
@@ -37,10 +36,6 @@ class Client{
         $this->component_aeskey = $component_aeskey;
     }
 
-    public function setComponentAccessToken( $component_access_token ){
-        $this->component_access_token = $component_access_token;
-    }
-
     public function setAppid($appid){
         $this->appid = $appid;
     }
@@ -55,10 +50,6 @@ class Client{
 
     public function setAeskey($aeskey){
         $this->aeskey = $aeskey;
-    }
-
-    public function setAccessToken($access_token){
-        $this->access_token = $access_token;
     }
 
 
@@ -304,6 +295,17 @@ class Client{
         $params = [
             'component_appid' => $this->component_appid,
             'authorization_code' => $authorization_code,
+        ];
+        return $this->api( $action, $params, 'post' );
+    }
+
+    //获取/刷新接口调用令牌
+    public function ComponentApiAuthorizerToken( $component_access_token, $authorizer_appid, $authorizer_refresh_token ){
+        $action = '/cgi-bin/component/api_authorizer_token?component_access_token=' . $component_access_token;
+        $params = [
+            'component_appid' => $this->component_appid,
+            'authorizer_appid' => $authorizer_appid,
+            'authorizer_refresh_token' => $authorizer_refresh_token,
         ];
         return $this->api( $action, $params, 'post' );
     }
