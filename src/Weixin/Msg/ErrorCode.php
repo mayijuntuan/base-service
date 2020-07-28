@@ -1,6 +1,6 @@
 <?php
 
-namespace Mayijuntuan\Weixin\Open;
+namespace Mayijuntuan\Weixin\Msg;
 
 
 /**
