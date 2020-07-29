@@ -165,6 +165,33 @@ class Client{
 
     }
 
+    //小程序上传代码
+    public function WxaCommit( $access_token, $template_id, $ext_json, $user_version, $user_desc ){
+
+        $action = '/wxa/commit?access_token=' . $access_token;
+        $params = [
+            'template_id' => $template_id,
+            'ext_json' => json_encode($ext_json),
+            'user_version' => $user_version,
+            'user_desc' => $user_desc,
+        ];
+        return $this->api( $action, $params, 'post' );
+
+    }
+
+    //获取体验版二维码
+    public function WxaGetQrcode( $access_token, $path=null ){
+
+        $action = '/wxa/get_qrcode';
+        $params = [
+            'access_token' => $access_token,
+        ];
+        if( !is_null($path) ){
+            $params['path'] = $path;
+        }
+        return $this->api( $action, $params );
+
+    }
 
     //消息解密
     public function decryptxml(){
