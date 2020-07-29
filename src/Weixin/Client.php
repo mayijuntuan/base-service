@@ -244,26 +244,30 @@ class Client{
     }
 
     //获取access_token
-    public function SnsOauth2ComponentAccessToken( $code ){
+    public function SnsOauth2ComponentAccessToken( $code, $component_access_token ){
 
         $action = '/sns/oauth2/component/access_token';
         $params = [
             'appid' => $this->appid,
             'code' => $code,
             'grant_type' => 'authorization_code',
+            'component_appid' => $this->component_appid,
+            'component_access_token' => $component_access_token,
         ];
         return $this->api( $action, $params );
 
     }
 
     //获取access_token
-    public function SnsComponentJscode2session( $code ){
+    public function SnsComponentJscode2session( $code, $component_access_token ){
 
         $action = '/sns/component/jscode2session';
         $params = [
             'appid' => $this->appid,
             'js_code' => $code,
             'grant_type' => 'authorization_code',
+            'component_appid' => $this->component_appid,
+            'component_access_token' => $component_access_token,
         ];
         return $this->api( $action, $params );
 
