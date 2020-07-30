@@ -53,7 +53,7 @@ class Client{
     }
 
 
-    //获取授权url
+    //公众号获取授权url
     public function getOauth2Url( $redirect_uri, $scope, $state='' ){
 
         $auth_url = 'https://open.weixin.qq.com/connect/oauth2/authorize';
@@ -64,7 +64,7 @@ class Client{
 
     }
 
-    //获取用户access_token
+    //公众号获取用户access_token
     public function SnsOauth2AccessToken( $code ){
 
         $action = '/sns/oauth2/access_token';
@@ -78,7 +78,7 @@ class Client{
 
     }
 
-    //获取用户access_token
+    //小程序获取用户access_token
     public function SnsJscode2session( $code ){
 
         $action = '/sns/jscode2session';
@@ -167,7 +167,6 @@ class Client{
 
     //小程序上传代码
     public function WxaCommit( $access_token, $template_id, $ext_json, $user_version, $user_desc ){
-
         $action = '/wxa/commit?access_token=' . $access_token;
         $params = [
             'template_id' => $template_id,
@@ -176,12 +175,10 @@ class Client{
             'user_desc' => $user_desc,
         ];
         return $this->api( $action, $params, 'post' );
-
     }
 
     //获取体验版二维码
     public function WxaGetQrcode( $access_token, $path=null ){
-
         $action = '/wxa/get_qrcode';
         $params = [
             'access_token' => $access_token,
@@ -189,9 +186,49 @@ class Client{
         if( !is_null($path) ){
             $params['path'] = $path;
         }
-        return $this->api( $action, $params );
-
+        return $this->api( $action, $params, 'get', '' );
     }
+
+    //小程序提交审核
+    public function WxaCommitAudit( $access_token, $params ){
+        $action = '/wxa/submit_audit?access_token=' . $access_token;
+        return $this->api( $action, $params, 'post' );
+    }
+
+    //查询指定发布审核单的审核状态
+    public function WxaGetAuditstatus( $access_token, $auditid ){
+        $action = '/wxa/get_auditstatus?access_token=' . $access_token;
+        $params = [
+            'auditid' => $auditid,
+        ];
+        return $this->api( $action, $params, 'post' );
+    }
+
+    //查询最新一次提交的审核状态
+    public function WxaGetLatestAuditstatus( $access_token ){
+        $action = '/wxa/get_latest_auditstatus?access_token=' . $access_token;
+        return $this->api( $action );
+    }
+
+    //小程序审核撤回
+    public function WxaUndocodeaudit( $access_token ){
+        $action = '/wxa/undocodeaudit?access_token=' . $access_token;
+        return $this->api( $action );
+    }
+
+    //发布已通过审核的小程序
+    public function WxaRelease( $access_token ){
+        $action = '/wxa/release?access_token=' . $access_token;
+        $params = [];
+        return $this->api( $action, $params, 'post' );
+    }
+
+    //版本回退
+    public function WxaRevertcoderelease( $access_token ){
+        $action = '/wxa/revertcoderelease?access_token=' . $access_token;
+        return $this->api( $action );
+    }
+
 
     //消息解密
     public function decryptxml(){
@@ -258,8 +295,7 @@ class Client{
 
     }
 
-
-    //获取授权url
+    //代公众号获取授权url
     public function getComponentOauth2Url( $redirect_uri, $scope, $state='' ){
 
         $auth_url = 'https://open.weixin.qq.com/connect/oauth2/authorize';
@@ -270,7 +306,7 @@ class Client{
 
     }
 
-    //获取access_token
+    //代公众号获取access_token
     public function SnsOauth2ComponentAccessToken( $code, $component_access_token ){
 
         $action = '/sns/oauth2/component/access_token';
@@ -285,7 +321,7 @@ class Client{
 
     }
 
-    //获取access_token
+    //代小程序获取access_token
     public function SnsComponentJscode2session( $code, $component_access_token ){
 
         $action = '/sns/component/jscode2session';
@@ -321,7 +357,7 @@ class Client{
     }
 
     //使用授权码换取授权信息
-    public function ComponentApiQueryAuth( $component_access_token, $authorization_code ){
+    public function ComponentApiQueryAuth( $authorization_code, $component_access_token ){
         $action = '/cgi-bin/component/api_query_auth?component_access_token=' . $component_access_token;
         $params = [
             'component_appid' => $this->component_appid,
@@ -331,7 +367,7 @@ class Client{
     }
 
     //获取/刷新接口调用令牌
-    public function ComponentApiAuthorizerToken( $component_access_token, $authorizer_appid, $authorizer_refresh_token ){
+    public function ComponentApiAuthorizerToken( $authorizer_appid, $authorizer_refresh_token, $component_access_token ){
         $action = '/cgi-bin/component/api_authorizer_token?component_access_token=' . $component_access_token;
         $params = [
             'component_appid' => $this->component_appid,
@@ -342,7 +378,7 @@ class Client{
     }
 
     //获取授权方的帐号基本信息
-    public function ComponentApiGetAuthorizerInfo( $component_access_token, $authorizer_appid ){
+    public function ComponentApiGetAuthorizerInfo( $authorizer_appid, $component_access_token ){
         $action = '/cgi-bin/component/api_get_authorizer_info?component_access_token=' . $component_access_token;
         $params = [
             'component_appid' => $this->component_appid,
@@ -364,7 +400,7 @@ class Client{
 
 
     //请求接口
-    private function api( $action, $params=[], $method='get' ){
+    private function api( $action, $params=[], $method='get', $format='json' ){
 
         $url = $this->api_url . $action;
 
@@ -389,6 +425,10 @@ class Client{
 
         $content = curl_exec($ch);
         curl_close($ch);
+
+        if( $format != 'json' )
+            return $content;
+
         $data = json_decode($content);
         if( !empty($data->errcode) )
             throw new Exception('Weixin接口返回错误:' . $data->errcode . ':' . $data->errmsg );
