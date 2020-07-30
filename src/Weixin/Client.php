@@ -210,7 +210,7 @@ class Client{
                 if( $needAccessToken ){
                     $url .= '?access_token=' . $request->getAccessToken();
                 }
-                if( $needAccessToken ){
+                if( $needComponentAccessToken ){
                     $url .= '?component_access_token=' . $request->getComponentAccessToken();
                 }
                 $postData = json_encode( $params, JSON_UNESCAPED_UNICODE );
