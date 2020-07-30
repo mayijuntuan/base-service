@@ -177,6 +177,12 @@ class Client{
         return $this->api( $action, $params, 'post' );
     }
 
+    //获取已上传的代码的页面列表
+    public function WxaGetPage( $access_token ){
+        $action = '/wxa/get_page';
+        return $this->api( $action );
+    }
+
     //获取体验版二维码
     public function WxaGetQrcode( $access_token, $path=null ){
         $action = '/wxa/get_qrcode';
