@@ -30,10 +30,9 @@ class S3Service{
     }
 
     //上传
-    public function upload( $key, $filePath, $bucket=null ){
+    public function upload( $key, $filePath ){
 
-        if( is_null($bucket) )
-            $bucket = $this->config['bucket'];
+        $bucket = $this->config['bucket'];
 
         $params = [
             'ACL' => 'public-read',
@@ -47,10 +46,9 @@ class S3Service{
     }
 
     //列表
-    public function getList( $prefix='', $bucket=null ){
+    public function getList( $options=[] ){
 
-        if( is_null($bucket) )
-            $bucket = $this->config['bucket'];
+        $bucket = $this->config['bucket'];
 
         $params = [
             'ACL' => 'public-read',
@@ -69,10 +67,9 @@ class S3Service{
     }
 
     //删除
-    public function delete( $key, $bucket=null  ){
+    public function delete( $key ){
 
-        if( is_null($bucket) )
-            $bucket = $this->config['bucket'];
+        $bucket = $this->config['bucket'];
 
         $params = [
             'ACL' => 'public-read',

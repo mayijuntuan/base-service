@@ -40,10 +40,9 @@ class OssService{
     }
 
     //上传
-    public function upload( $key, $filePath, $bucket=null ){
+    public function upload( $key, $filePath ){
 
-        if( is_null($bucket) )
-            $bucket = $this->config['bucket'];
+        $bucket = $this->config['bucket'];
 
         $content = file_get_contents($filePath);
 
@@ -52,15 +51,55 @@ class OssService{
     }
 
     //列表
-    public function getList( $prefix='', $bucket=null ){
+    public function getList( $options=[] ){
 
-        if( is_null($bucket) )
-            $bucket = $this->config['bucket'];
+        if( isset($options['limit']) ){
+            $options['max-keys'] = $options['limit'];
+        }
 
-        $options = [
+        $bucket = $this->config['bucket'];
+
+        $objectListInfo = $this->getClient()->listObjects( $bucket, $options );
+
+        $bucketName = $objectListInfo->getBucketName();
+        $prefix = $objectListInfo->getPrefix();
+        $marker = $objectListInfo->getMarker();
+        $limit = $objectListInfo->getMaxKeys();
+        $delimiter = $objectListInfo->getDelimiter();
+        $nextMarker = $objectListInfo->getNextMarker();
+
+        $fileList = [];
+        $objectList = $objectListInfo->getObjectList();
+        foreach( $objectList as $objectInfo ){
+            $name = $objectInfo->getKey();
+            $url = $this->config['url'] . $name;
+            $fileList[] = [
+                'name' => $name,
+                'url' => $url,
+                'modify' => strtotime($objectInfo->getLastModified()),
+                'tag' => $objectInfo->getETag(),
+                'size' => $objectInfo->getSize(),
+            ];
+        }//end foreach
+
+        $folderList = [];
+        $prefixList = $objectListInfo->getPrefixList();
+        foreach( $prefixList as $prefixInfo ){
+            $folderList[] = [
+                'name' => $prefixInfo->getPrefix(),
+            ];
+        }//end foreach
+
+        return [
+            'bucketName' => $bucketName,
             'prefix' => $prefix,
+            'marker' => $marker,
+            'limit' => $limit,
+            'delimiter' => $delimiter,
+            'nextMarker' => $nextMarker,
+            'fileList' => $fileList,
+            'folderList' => $folderList,
         ];
-        return $this->getClient()->listObjects( $bucket, $options );
 
     }
 
@@ -72,10 +111,9 @@ class OssService{
     }
 
     //删除
-    public function delete( $key, $bucket=null  ){
+    public function delete( $key  ){
 
-        if( is_null($bucket) )
-            $bucket = $this->config['bucket'];
+        $bucket = $this->config['bucket'];
 
         return $this->getClient()->deleteObject( $bucket, $key );
 

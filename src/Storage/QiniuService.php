@@ -26,10 +26,9 @@ class QiniuService{
     }
 
     //上传
-    public function upload( $key, $filePath, $bucket=null ){
+    public function upload( $key, $filePath ){
 
-        if( is_null($bucket) )
-            $bucket = $this->config['bucket'];
+        $bucket = $this->config['bucket'];
 
         $token = $this->getClient()->uploadToken($bucket);
 
@@ -45,13 +44,17 @@ class QiniuService{
     }
 
     //列表
-    public function getList( $prefix, $bucket=null ){
+    public function getList( $options=[] ){
 
-        if( is_null($bucket) )
-            $bucket = $this->config['bucket'];
+        $bucket = $this->config['bucket'];
+
+        $prefix = isset($options['prefix']) ? $options['prefix'] : null;
+        $marker = isset($options['marker']) ? $options['marker'] : null;
+        $limit = isset($options['limit']) ? $options['limit'] : 1000;
+        $delimiter = isset($options['delimiter']) ? $options['delimiter'] : null;
 
         $bucketManager = new BucketManager();
-        return $bucketManager->listFiles( $bucket, $prefix );
+        return $bucketManager->listFiles( $bucket, $prefix, $marker, $limit, $delimiter );
 
     }
 
@@ -63,10 +66,9 @@ class QiniuService{
     }
 
     //删除
-    public function delete( $key, $bucket=null ){
+    public function delete( $key ){
 
-        if( is_null($bucket) )
-            $bucket = $this->config['bucket'];
+        $bucket = $this->config['bucket'];
 
         $bucketManager = new BucketManager();
         return $bucketManager->delete( $bucket, $key );
