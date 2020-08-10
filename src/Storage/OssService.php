@@ -85,8 +85,11 @@ class OssService{
         $folderList = [];
         $prefixList = $objectListInfo->getPrefixList();
         foreach( $prefixList as $prefixInfo ){
+            $fullname = $prefixInfo->getPrefix();
+            $name = str_replace( $prefix,'', $fullname );
             $folderList[] = [
-                'name' => $prefixInfo->getPrefix(),
+                'name' => $name,
+                'fullname' => $fullname,
             ];
         }//end foreach
 
