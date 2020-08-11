@@ -6,7 +6,6 @@ namespace Mayijuntuan\Weixin\Request;
 class SnsComponentJscode2Session extends BaseRequest{
 
     protected $action = '/sns/component/jscode2session';
-    protected $method = 'post';
     protected $needComponentAccessToken = true;
     protected $params = [
         'grant_type' => 'authorization_code',
