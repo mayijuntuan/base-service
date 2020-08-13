@@ -213,7 +213,7 @@ class Client{
                 if( $needComponentAccessToken ){
                     $url .= '?component_access_token=' . $request->getComponentAccessToken();
                 }
-                $postData = json_encode( $params, JSON_UNESCAPED_UNICODE );
+                $postData = json_encode( (object)$params, JSON_UNESCAPED_UNICODE );
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
                 break;
