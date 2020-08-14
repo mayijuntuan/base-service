@@ -7,10 +7,13 @@ class WxaChangeWxaSearchStatus extends BaseRequest{
 
     protected $action = '/wxa/changewxasearchstatus';
     protected $method = 'post';
-    protected $needAccessToken = true;
+
+    public function setAccessToken( $access_token ){
+        $this->params['access_token'] = $access_token;
+    }
 
     public function setStatus( $status ){
-        $this->params['status'] = $status;
+        $this->data['status'] = $status;
     }
 
 }

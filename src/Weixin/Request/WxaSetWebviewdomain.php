@@ -7,14 +7,17 @@ class WxaSetWebviewdomain extends BaseRequest{
 
     protected $action = '/wxa/setwebviewdomain';
     protected $method = 'post';
-    protected $needAccessToken = true;
+
+    public function setAccessToken( $access_token ){
+        $this->params['access_token'] = $access_token;
+    }
 
     public function setAction( $action ){
-        $this->params['action'] = $action;
+        $this->data['action'] = $action;
     }
 
     public function setWebviewdomain( $webviewdomain ){
-        $this->params['webviewdomain'] = $webviewdomain;
+        $this->data['webviewdomain'] = $webviewdomain;
     }
 
 }

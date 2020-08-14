@@ -6,7 +6,6 @@ namespace Mayijuntuan\Weixin\Request;
 class SnsOauth2ComponentAccessToken extends BaseRequest{
 
     protected $action = '/sns/oauth2/component/access_token';
-    protected $needComponentAccessToken = true;
     protected $params = [
         'grant_type' => 'authorization_code',
     ];
@@ -25,6 +24,10 @@ class SnsOauth2ComponentAccessToken extends BaseRequest{
 
     public function setComponentAppid( $component_appid ){
         $this->params['component_appid'] = $component_appid;
+    }
+
+    public function setComponentAccessToken( $component_access_token ){
+        $this->params['component_access_token'] = $component_access_token;
     }
 
 }

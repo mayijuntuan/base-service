@@ -2,10 +2,10 @@
 
 namespace Mayijuntuan\Weixin\Request;
 
-//获取/刷新接口调用令牌
-class ComponentApiAuthorizerToken extends BaseRequest{
+//获取授权方选项信息
+class ComponentApiGetAuthorizerOption extends BaseRequest{
 
-    protected $action = '/cgi-bin/component/api_authorizer_token';
+    protected $action = '/cgi-bin/component/api_get_authorizer_option';
     protected $method = 'post';
 
     public function setComponentAccessToken( $component_access_token ){
@@ -20,8 +20,8 @@ class ComponentApiAuthorizerToken extends BaseRequest{
         $this->data['authorizer_appid'] = $authorizer_appid;
     }
 
-    public function setAuthorizerRefreshToken( $authorizer_refresh_token ){
-        $this->data['authorizer_refresh_token'] = $authorizer_refresh_token;
+    public function setOptionName( $option_name ){
+        $this->data['option_name'] = $option_name;
     }
 
 }

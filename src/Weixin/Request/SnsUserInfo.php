@@ -2,10 +2,10 @@
 
 namespace Mayijuntuan\Weixin\Request;
 
-//获取用户信息
-class UserInfo extends BaseRequest{
+//获取用户基本信息
+class SnsUserInfo extends BaseRequest{
 
-    protected $action = '/cgi-bin/user/info';
+    protected $action = '/sns/userinfo';
     protected $params = [
         'lang' => 'zh_CN',
     ];

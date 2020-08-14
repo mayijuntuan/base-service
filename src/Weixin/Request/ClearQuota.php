@@ -2,18 +2,14 @@
 
 namespace Mayijuntuan\Weixin\Request;
 
-//设置展示的公众号信息
-class WxaUpdateShowWxaItem extends BaseRequest{
+//代公众号调用接口调用次数清零
+class ClearQuota extends BaseRequest{
 
-    protected $action = '/wxa/updateshowwxaitem';
+    protected $action = '/cgi-bin/clear_quota';
     protected $method = 'post';
 
     public function setAccessToken( $access_token ){
         $this->params['access_token'] = $access_token;
-    }
-
-    public function setWxaSubscribeBizFlag( $wxa_subscribe_biz_flag ){
-        $this->data['wxa_subscribe_biz_flag'] = $wxa_subscribe_biz_flag;
     }
 
     public function setAppid( $appid ){

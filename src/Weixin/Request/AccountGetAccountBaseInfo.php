@@ -2,11 +2,10 @@
 
 namespace Mayijuntuan\Weixin\Request;
 
-//发布已通过审核的小程序
-class WxaRelease extends BaseRequest{
+//获取小程序的基本信息
+class AccountGetAccountBaseInfo extends BaseRequest{
 
-    protected $action = '/wxa/release';
-    protected $method = 'post';
+    protected $action = '/cgi-bin/account/getaccountbasicinfo';
 
     public function setAccessToken( $access_token ){
         $this->params['access_token'] = $access_token;

@@ -2,18 +2,14 @@
 
 namespace Mayijuntuan\Weixin\Request;
 
-//设置展示的公众号信息
-class WxaUpdateShowWxaItem extends BaseRequest{
+//解除已关联的小程序
+class WxOpenWxaMpUnlink extends BaseRequest{
 
-    protected $action = '/wxa/updateshowwxaitem';
+    protected $action = '/cgi-bin/wxopen/wxampunlink';
     protected $method = 'post';
 
     public function setAccessToken( $access_token ){
         $this->params['access_token'] = $access_token;
-    }
-
-    public function setWxaSubscribeBizFlag( $wxa_subscribe_biz_flag ){
-        $this->data['wxa_subscribe_biz_flag'] = $wxa_subscribe_biz_flag;
     }
 
     public function setAppid( $appid ){

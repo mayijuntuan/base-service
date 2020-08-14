@@ -2,11 +2,10 @@
 
 namespace Mayijuntuan\Weixin\Request;
 
-//发布已通过审核的小程序
-class WxaRelease extends BaseRequest{
+//获取已设置的所有类目
+class WxOpenGetCategory extends BaseRequest{
 
-    protected $action = '/wxa/release';
-    protected $method = 'post';
+    protected $action = '/cgi-bin/wxopen/getcategory';
 
     public function setAccessToken( $access_token ){
         $this->params['access_token'] = $access_token;

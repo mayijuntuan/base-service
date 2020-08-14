@@ -2,10 +2,10 @@
 
 namespace Mayijuntuan\Weixin\Request;
 
-//使用授权码获取授权信息
-class ComponentApiQueryAuth extends BaseRequest{
+//拉取所有已授权的帐号信息
+class ComponentApiGetAuthorizerList extends BaseRequest{
 
-    protected $action = '/cgi-bin/component/api_query_auth';
+    protected $action = '/cgi-bin/component/api_get_authorizer_list';
     protected $method = 'post';
 
     public function setComponentAccessToken( $component_access_token ){
@@ -16,8 +16,12 @@ class ComponentApiQueryAuth extends BaseRequest{
         $this->data['component_appid'] = $component_appid;
     }
 
-    public function setAuthorizationCode( $authorization_code ){
-        $this->data['authorization_code'] = $authorization_code;
+    public function setOffset( $offset ){
+        $this->data['offset'] = $offset;
+    }
+
+    public function setCount( $count ){
+        $this->data['count'] = $count;
     }
 
 }

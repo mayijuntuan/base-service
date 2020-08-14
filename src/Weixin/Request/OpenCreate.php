@@ -2,18 +2,14 @@
 
 namespace Mayijuntuan\Weixin\Request;
 
-//设置展示的公众号信息
-class WxaUpdateShowWxaItem extends BaseRequest{
+//创建开放平台帐号并绑定公众号/小程序
+class OpenCreate extends BaseRequest{
 
-    protected $action = '/wxa/updateshowwxaitem';
+    protected $action = '/cgi-bin/open/create';
     protected $method = 'post';
 
     public function setAccessToken( $access_token ){
         $this->params['access_token'] = $access_token;
-    }
-
-    public function setWxaSubscribeBizFlag( $wxa_subscribe_biz_flag ){
-        $this->data['wxa_subscribe_biz_flag'] = $wxa_subscribe_biz_flag;
     }
 
     public function setAppid( $appid ){

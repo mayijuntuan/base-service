@@ -4,6 +4,11 @@ namespace Mayijuntuan\Weixin\Request;
 
 //查询隐私设置
 class WxaGetWxaSearchStatus extends BaseRequest{
+
     protected $action = '/wxa/getwxasearchstatus';
-    protected $needAccessToken = true;
+
+    public function setAccessToken( $access_token ){
+        $this->params['access_token'] = $access_token;
+    }
+
 }

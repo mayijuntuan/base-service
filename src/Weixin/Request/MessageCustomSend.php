@@ -7,58 +7,61 @@ class MessageCustomSend extends BaseRequest{
 
     protected $action = '/cgi-bin/message/custom/send';
     protected $method = 'post';
-    protected $needAccessToken = true;
+
+    public function setAccessToken( $access_token ){
+        $this->params['access_token'] = $access_token;
+    }
 
     public function setToUser( $touser ){
-        $this->params['touser'] = $touser;
+        $this->data['touser'] = $touser;
     }
 
     public function setMsgType( $msgtype ){
-        $this->params['msgtype'] = $msgtype;
+        $this->data['msgtype'] = $msgtype;
     }
 
     public function setText( $text ){
-        $this->params['text'] = $text;
+        $this->data['text'] = $text;
     }
 
     public function setImage( $image ){
-        $this->params['image'] = $image;
+        $this->data['image'] = $image;
     }
 
     public function setVoice( $voice ){
-        $this->params['voice'] = $voice;
+        $this->data['voice'] = $voice;
     }
 
     public function setVideo( $video ){
-        $this->params['video'] = $video;
+        $this->data['video'] = $video;
     }
 
     public function setMusic( $music ){
-        $this->params['music'] = $music;
+        $this->data['music'] = $music;
     }
 
     public function setNews( $news ){
-        $this->params['news'] = $news;
+        $this->data['news'] = $news;
     }
 
     public function setMpNews( $mpnews ){
-        $this->params['mpnews'] = $mpnews;
+        $this->data['mpnews'] = $mpnews;
     }
 
     public function setMsgMenu( $msgmenu ){
-        $this->params['msgmenu'] = $msgmenu;
+        $this->data['msgmenu'] = $msgmenu;
     }
 
     public function setWxCard( $wxcard ){
-        $this->params['wxcard'] = $wxcard;
+        $this->data['wxcard'] = $wxcard;
     }
 
     public function setMiniProgramPage( $miniprogrampage ){
-        $this->params['miniprogrampage'] = $miniprogrampage;
+        $this->data['miniprogrampage'] = $miniprogrampage;
     }
 
     public function setCustomService( $customservice ){
-        $this->params['customservice'] = $customservice;
+        $this->data['customservice'] = $customservice;
     }
 
 }

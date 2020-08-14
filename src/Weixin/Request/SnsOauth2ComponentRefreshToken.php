@@ -2,23 +2,23 @@
 
 namespace Mayijuntuan\Weixin\Request;
 
-//代小程序获取用户access_token
-class SnsComponentJscode2Session extends BaseRequest{
+//代公众号获取刷新用户access_token
+class SnsOauth2ComponentRefreshToken extends BaseRequest{
 
-    protected $action = '/sns/component/jscode2session';
+    protected $action = '/sns/oauth2/component/refresh_token';
     protected $params = [
-        'grant_type' => 'authorization_code',
+        'grant_type' => 'refresh_token',
     ];
 
     public function setAppid( $appid ){
         $this->params['appid'] = $appid;
     }
 
-    public function setJsCode( $js_code ){
-        $this->params['js_code'] = $js_code;
+    public function setRefreshToken( $refresh_token ){
+        $this->params['refresh_token'] = $refresh_token;
     }
 
-    public function setGrantType( $grant_type='authorization_code' ){
+    public function setGrantType( $grant_type='refresh_token' ){
         $this->params['grant_type'] = $grant_type;
     }
 

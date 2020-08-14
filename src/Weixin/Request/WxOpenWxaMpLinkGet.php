@@ -2,10 +2,10 @@
 
 namespace Mayijuntuan\Weixin\Request;
 
-//发布已通过审核的小程序
-class WxaRelease extends BaseRequest{
+//获取公众号关联的小程序
+class WxOpenWxaMpLinkGet extends BaseRequest{
 
-    protected $action = '/wxa/release';
+    protected $action = '/cgi-bin/wxopen/wxamplinkget';
     protected $method = 'post';
 
     public function setAccessToken( $access_token ){
