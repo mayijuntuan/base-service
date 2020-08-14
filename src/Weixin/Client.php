@@ -17,6 +17,9 @@ use Mayijuntuan\Weixin\Request\OpenBind;
 use Mayijuntuan\Weixin\Request\OpenCreate;
 use Mayijuntuan\Weixin\Request\OpenGet;
 use Mayijuntuan\Weixin\Request\OpenUnbind;
+use Mayijuntuan\Weixin\Request\SnsComponentJscode2Session;
+use Mayijuntuan\Weixin\Request\SnsOauth2ComponentAccessToken;
+use Mayijuntuan\Weixin\Request\SnsUserInfo;
 use Mayijuntuan\Weixin\Request\WxaCommit;
 use Mayijuntuan\Weixin\Request\WxaCommitAudit;
 use Mayijuntuan\Weixin\Request\WxaGetAuditStatus;
@@ -284,6 +287,34 @@ class Client{
         $request = new OpenGet();
         $request->setAccessToken($access_token);
         $request->setAppid($appid);
+        return $this->request( $request );
+    }
+
+    //代公众号通过 code 换取 access_token
+    public function SnsOauth2ComponentAccessToken( $component_access_token, $appid, $code ){
+        $request = new SnsOauth2ComponentAccessToken();
+        $request->setComponentAppid($this->appid);
+        $request->setComponentAccessToken($component_access_token);
+        $request->setAppid($appid);
+        $request->setCode($code);
+        return $this->request( $request );
+    }
+
+    //通过网页授权 access_token 获取用户基本信息
+    public function SnsUserInfo( $access_token, $openid ){
+        $request = new SnsUserInfo();
+        $request->setAccessToken($access_token);
+        $request->setOpenid($openid);
+        return $this->request( $request );
+    }
+
+    //小程序登录
+    public function SnsComponentJscode2Session( $component_access_token, $appid, $js_code ){
+        $request = new SnsComponentJscode2Session();
+        $request->setComponentAppid($this->appid);
+        $request->setComponentAccessToken($component_access_token);
+        $request->setAppid($appid);
+        $request->setJsCode($js_code);
         return $this->request( $request );
     }
 
