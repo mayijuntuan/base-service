@@ -5,7 +5,7 @@ namespace Mayijuntuan\Weixin\Request;
 //快速创建小程序
 class ComponentFastRegisterWeapp extends BaseRequest{
 
-    protected $action = '/cgi-bin/component/clear_quota';
+    protected $action = '/cgi-bin/component/fastregisterweapp';
     protected $method = 'post';
     protected $params = [
         'action' => 'create'
