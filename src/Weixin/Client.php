@@ -12,13 +12,15 @@ use Mayijuntuan\Weixin\Request\ComponentApiGetAuthorizerList;
 use Mayijuntuan\Weixin\Request\ComponentApiGetAuthorizerOption;
 use Mayijuntuan\Weixin\Request\ComponentApiQueryAuth;
 use Mayijuntuan\Weixin\Request\ComponentApiSetAuthorizerOption;
-use Mayijuntuan\Weixin\Request\MessageCustomSend;
 use Mayijuntuan\Weixin\Request\OpenBind;
 use Mayijuntuan\Weixin\Request\OpenCreate;
 use Mayijuntuan\Weixin\Request\OpenGet;
 use Mayijuntuan\Weixin\Request\OpenUnbind;
 use Mayijuntuan\Weixin\Request\SnsComponentJscode2Session;
+use Mayijuntuan\Weixin\Request\SnsJscode2Session;
+use Mayijuntuan\Weixin\Request\SnsOauth2AccessToken;
 use Mayijuntuan\Weixin\Request\SnsOauth2ComponentAccessToken;
+use Mayijuntuan\Weixin\Request\SnsOauth2ComponentRefreshToken;
 use Mayijuntuan\Weixin\Request\SnsUserInfo;
 use Mayijuntuan\Weixin\Request\WxaCommit;
 use Mayijuntuan\Weixin\Request\WxaCommitAudit;
@@ -290,13 +292,32 @@ class Client{
         return $this->request( $request );
     }
 
-    //代公众号通过 code 换取 access_token
+    //公众号通过 code 换取 access_token
+    public function SnsOauth2AccessToken( $code ){
+        $request = new SnsOauth2AccessToken();
+        $request->setAppid($this->appid);
+        $request->setSecret($this->secret);
+        $request->setCode($code);
+        return $this->request( $request );
+    }
+
+    //第三方代公众号通过 code 换取 access_token
     public function SnsOauth2ComponentAccessToken( $component_access_token, $appid, $code ){
         $request = new SnsOauth2ComponentAccessToken();
         $request->setComponentAppid($this->appid);
         $request->setComponentAccessToken($component_access_token);
         $request->setAppid($appid);
         $request->setCode($code);
+        return $this->request( $request );
+    }
+
+    //第三方代公众号刷新access_token
+    public function SnsOauth2ComponentRefreshToken( $component_access_token, $appid, $refresh_token ){
+        $request = new SnsOauth2ComponentRefreshToken();
+        $request->setComponentAppid($this->appid);
+        $request->setComponentAccessToken($component_access_token);
+        $request->setAppid($appid);
+        $request->setRefreshToken($refresh_token);
         return $this->request( $request );
     }
 
@@ -309,6 +330,15 @@ class Client{
     }
 
     //小程序登录
+    public function SnsJscode2Session( $js_code ){
+        $request = new SnsJscode2Session();
+        $request->setAppid($this->appid);
+        $request->setSecret($this->secret);
+        $request->setJsCode($js_code);
+        return $this->request( $request );
+    }
+
+    //第三方代小程序登录
     public function SnsComponentJscode2Session( $component_access_token, $appid, $js_code ){
         $request = new SnsComponentJscode2Session();
         $request->setComponentAppid($this->appid);

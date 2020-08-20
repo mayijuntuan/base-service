@@ -18,6 +18,7 @@ class PayClient{
     private $key = '';
     private $sslcertPath = '';
     private $sslkeyPath = '';
+    private $sslkeyPasswd = '';
 
     public function setAppid($appid){
         $this->appid = $appid;
@@ -37,6 +38,10 @@ class PayClient{
 
     public function setSslKeyPath($sslkeyPath){
         $this->sslkeyPath = $sslkeyPath;
+    }
+
+    public function setSslKeyPasswd($sslkeyPasswd){
+        $this->sslkeyPasswd = $sslkeyPasswd;
     }
 
 
@@ -172,6 +177,9 @@ class PayClient{
             curl_setopt($ch,CURLOPT_SSLCERT, $this->sslcertPath );
             curl_setopt($ch,CURLOPT_SSLKEYTYPE,'PEM' );
             curl_setopt($ch,CURLOPT_SSLKEY, $this->sslkeyPath );
+            if( !empty($this->sslkeyPasswd) ){
+                curl_setopt($ch,CURLOPT_KEYPASSWD, $this->sslkeyPasswd );
+            }
         }
 
         //post提交方式
