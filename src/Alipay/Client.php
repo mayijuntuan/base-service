@@ -227,9 +227,6 @@ class Client{
         if( empty($_POST['sign_type']) )
             throw new Exception('parameter sign_type is empty');
 
-        if( empty($_POST['service']) )
-            throw new Exception('parameter service is empty');
-
         if( empty($_POST['charset']) )
             throw new Exception('parameter charset is empty');
 
@@ -237,22 +234,19 @@ class Client{
             throw new Exception('parameter biz_content is empty');
 
         $res = $this->AopClient->rsaCheckV2( $_POST, null, $_POST['sign_type'] );
-        if ( $_POST['service'] == 'alipay.service.check' ){
-            return $this->gateway_service_check( $res );
-        }
         if( !$res ) {
             throw new Exception('sign verfiy fail');
         }
 
         $biz_content = $_POST['biz_content'];
         if( strtolower($_POST['charset']) != 'utf-8' ){
-            $biz_content = iconv( $_POST['charset'], 'UTF-8', $biz_content);
+            $biz_content = iconv( $_POST['charset'], 'UTF-8', $biz_content );
         }
-        return simplexml_load_string($biz_content);
+        return $biz_content;
 
     }
 
-    public function gateway_service_check( $is_sign_success ){
+    public function gateway_service_check( $is_sign_success=true ){
 
         $private_key = $this->private_key;
         $alipay_public_key = $this->alipay_public_key;
@@ -281,7 +275,8 @@ class Client{
         $return_xml .= '<CreateTime><![CDATA[' . $create_time . ']]></CreateTime>';
         $return_xml .= '<MsgType><![CDATA[ack]]></MsgType>';
         $return_xml .= '</XML>';
-        return $return_xml;
+        echo $return_xml;
+        exit;
 
     }
 
