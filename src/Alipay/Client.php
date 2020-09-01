@@ -218,8 +218,8 @@ class Client{
         return $this->AopClient->rsaCheckV1( $_POST, null, $this->sign_type );
     }
 
-    //消息网关
-    public function gateway(){
+    //网关消息验证
+    public function gateway_verify(){
 
         if( empty($_POST['sign']) )
             throw new Exception('parameter sign is empty');
@@ -233,16 +233,7 @@ class Client{
         if( empty($_POST['biz_content']) )
             throw new Exception('parameter biz_content is empty');
 
-        $res = $this->AopClient->rsaCheckV2( $_POST, null, $_POST['sign_type'] );
-        if( !$res ) {
-            throw new Exception('sign verfiy fail');
-        }
-
-        $biz_content = $_POST['biz_content'];
-        if( strtolower($_POST['charset']) != 'utf-8' ){
-            $biz_content = iconv( $_POST['charset'], 'UTF-8', $biz_content );
-        }
-        return $biz_content;
+        return $this->AopClient->rsaCheckV2( $_POST, null, $_POST['sign_type'] );
 
     }
 
