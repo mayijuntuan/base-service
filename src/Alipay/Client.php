@@ -248,7 +248,6 @@ class Client{
 
     public function gateway_service_check( $is_sign_success=true ){
 
-        $private_key = $this->private_key;
         $alipay_public_key = $this->alipay_public_key;
         $sign_type = $this->sign_type;
         $charset = $this->charset;
@@ -258,7 +257,7 @@ class Client{
         } else { // echo $response_xml;
             $response_xml = "<success>false</success><error_code>VERIFY_FAILED</error_code><biz_content>" . $alipay_public_key . "</biz_content>";
         }
-        $sign = $this->sign( $response_xml, $private_key, $sign_type );
+        $sign = $this->AopClient->sign( $response_xml, $sign_type );
         $return_xml = "<?xml version=\"1.0\" encoding=\"" . $charset . "\"?><alipay><response>" . $response_xml . "</response><sign>" . $sign . "</sign><sign_type>" . $sign_type . "</sign_type></alipay>";
         echo $return_xml;
         exit;

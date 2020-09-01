@@ -123,7 +123,7 @@ class AopClient
         return $stringToBeSigned;
     }
 
-    protected function sign($data, $signType = "RSA")
+    public function sign($data, $signType = "RSA")
     {
         if ($this->checkEmpty($this->rsaPrivateKeyFilePath)) {
             $priKey = $this->rsaPrivateKey;
@@ -688,7 +688,7 @@ class AopClient
         $sign = $params['sign'];
 
         unset($params['sign']);
-        unset($params['sign_type']);
+        //unset($params['sign_type']);
         return $this->verify($this->getCheckSignContent($params), $sign, $rsaPublicKeyFilePath, $signType);
     }
 
