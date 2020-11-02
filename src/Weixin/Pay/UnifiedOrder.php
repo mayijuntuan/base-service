@@ -63,6 +63,58 @@ class UnifiedOrder extends DataBase {
 
 
     /**
+     * 设置子商户的公众账号ID
+     * @param string $value
+     **/
+    public function SetSub_appid($value)
+    {
+        $this->values['sub_appid'] = $value;
+    }
+    /**
+     * 获取子商户的公众账号ID的值
+     * @return 值
+     **/
+    public function GetSub_appid()
+    {
+        return $this->values['sub_appid'];
+    }
+    /**
+     * 判断子商户的公众账号ID是否存在
+     * @return true 或 false
+     **/
+    public function IsSub_appidSet()
+    {
+        return array_key_exists('sub_appid', $this->values);
+    }
+
+
+    /**
+     * 设置微信支付分配的商户号
+     * @param string $value
+     **/
+    public function SetSub_mch_id($value)
+    {
+        $this->values['sub_mch_id'] = $value;
+    }
+    /**
+     * 获取微信支付分配的商户号的值
+     * @return 值
+     **/
+    public function GetSub_mch_id()
+    {
+        return $this->values['sub_mch_id'];
+    }
+    /**
+     * 判断微信支付分配的商户号是否存在
+     * @return true 或 false
+     **/
+    public function IsSub_mch_idSet()
+    {
+        return array_key_exists('sub_mch_id', $this->values);
+    }
+
+
+    /**
      * 设置微信支付分配的终端设备号，商户自定义
      * @param string $value
      **/
@@ -474,6 +526,32 @@ class UnifiedOrder extends DataBase {
     public function IsOpenidSet()
     {
         return array_key_exists('openid', $this->values);
+    }
+
+
+    /**
+     * 判断trade_type=JSAPI，此参数必传，openid和sub_openid可以选传其中之一，如果选择传sub_openid,则必须传sub_appid
+     * @param string $value
+     **/
+    public function SetSub_openid($value)
+    {
+        $this->values['sub_openid'] = $value;
+    }
+    /**
+     * 判断trade_type=JSAPI，此参数必传，openid和sub_openid可以选传其中之一，如果选择传sub_openid,则必须传sub_appid
+     * @return 值
+     **/
+    public function GetSub_openid()
+    {
+        return $this->values['sub_openid'];
+    }
+    /**
+     * 判断trade_type=JSAPI，此参数必传，openid和sub_openid可以选传其中之一，如果选择传sub_openid,则必须传sub_appid
+     * @return true 或 false
+     **/
+    public function IsSub_openidSet()
+    {
+        return array_key_exists('sub_openid', $this->values);
     }
 
 }

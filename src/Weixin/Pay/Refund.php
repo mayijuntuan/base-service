@@ -63,6 +63,58 @@ class Refund extends DataBase {
 
 
     /**
+     * 设置子商户的公众账号ID
+     * @param string $value
+     **/
+    public function SetSub_appid($value)
+    {
+        $this->values['sub_appid'] = $value;
+    }
+    /**
+     * 获取子商户的公众账号ID的值
+     * @return 值
+     **/
+    public function GetSub_appid()
+    {
+        return $this->values['sub_appid'];
+    }
+    /**
+     * 判断子商户的公众账号ID是否存在
+     * @return true 或 false
+     **/
+    public function IsSub_appidSet()
+    {
+        return array_key_exists('sub_appid', $this->values);
+    }
+
+
+    /**
+     * 设置微信支付分配的商户号
+     * @param string $value
+     **/
+    public function SetSub_mch_id($value)
+    {
+        $this->values['sub_mch_id'] = $value;
+    }
+    /**
+     * 获取微信支付分配的商户号的值
+     * @return 值
+     **/
+    public function GetSub_mch_id()
+    {
+        return $this->values['sub_mch_id'];
+    }
+    /**
+     * 判断微信支付分配的商户号是否存在
+     * @return true 或 false
+     **/
+    public function IsSub_mch_idSet()
+    {
+        return array_key_exists('sub_mch_id', $this->values);
+    }
+
+
+    /**
      * 设置微信支付分配的终端设备号，与下单一致
      * @param string $value
      **/

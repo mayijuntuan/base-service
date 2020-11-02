@@ -15,6 +15,8 @@ class PayClient{
     private $api_url = 'https://api.mch.weixin.qq.com';
     private $appid = '';
     private $mch_id = '';
+    private $sub_appid = '';
+    private $sub_mch_id = '';
     private $key = '';
     private $sslcertPath = '';
     private $sslkeyPath = '';
@@ -26,6 +28,14 @@ class PayClient{
 
     public function setMchId($mch_id){
         $this->mch_id = $mch_id;
+    }
+
+    public function setSubAppid($sub_appid){
+        $this->sub_appid = $sub_appid;
+    }
+
+    public function setSubMchId($sub_mch_id){
+        $this->sub_mch_id = $sub_mch_id;
     }
 
     public function setKey($key){
@@ -60,12 +70,19 @@ class PayClient{
         $input->SetBody($title);
         $input->SetOut_trade_no($trade_no);
         $input->SetTotal_fee($amount);
+        $input->SetSpbill_create_ip($_SERVER['REMOTE_ADDR']);
         $input->SetTime_start(date('YmdHis'));
         $input->SetTime_expire(date('YmdHis', time() + 600));
-        $input->SetTrade_type('JSAPI');
-        $input->SetOpenid($openid);
         $input->SetNotify_url( $notify_url );
-        $input->SetSpbill_create_ip($_SERVER['REMOTE_ADDR']);
+        $input->SetTrade_type('JSAPI');
+
+        if( !empty($this->sub_appid) ){
+            $input->SetSub_appid($this->sub_appid);
+            $input->SetSub_mch_id($this->sub_mch_id);
+            $input->SetSub_openid($openid);
+        }else{
+            $input->SetOpenid($openid);
+        }
 
         $UnifiedOrderResult = $this->api( $action, $input);
 
@@ -92,6 +109,20 @@ class PayClient{
 
     /**
      *
+     * 支付回调
+     */
+    public function notifyCheck(){
+
+        $content = file_get_contents('php://input');
+
+        $results = new Results();
+        $results->SetKey($this->key);
+        return $results->Init($content);
+
+    }
+
+    /**
+     *
      * 退款
      */
     public function refund( $refund_no, $trade_no, $amount, $totalAmount ){
@@ -105,18 +136,36 @@ class PayClient{
         $input->SetTotal_fee($totalAmount);
         $input->SetRefund_fee($amount);
 
+        if( !empty($this->sub_appid) ){
+            $input->SetSub_appid($this->sub_appid);
+            $input->SetSub_mch_id($this->sub_mch_id);
+        }
+
         $RefundResult = $this->api( $action, $input, true );
         return $RefundResult;
 
     }
 
-    public function notifyCheck(){
+    /**
+     *
+     * 退款回调
+     */
+    public function refundNotifyCheck(){
 
-        $xml = file_get_contents('php://input');
+        $content = file_get_contents('php://input');
 
         $results = new Results();
         $results->SetKey($this->key);
-        return $results->Init($xml);
+        $results->FromXml($content);
+        $result = $results->GetValues();
+
+        $req_info = $result['req_info'];
+        $req_info = openssl_decrypt( base64_decode($req_info), 'aes-256-ecb', md5($this->key), OPENSSL_RAW_DATA );
+        $results->FromXml($req_info);
+        $req_info = $results->GetValues();
+        $result['req_info'] = $req_info;
+
+        return $result;
 
     }
 
@@ -149,9 +198,9 @@ class PayClient{
 
     private function sendXml( $url, $input, $useCert=false ){
 
+        $input->SetKey($this->key);
         $input->SetAppid($this->appid);
         $input->SetMch_id($this->mch_id);
-        $input->SetKey($this->key);
         $input->SetNonce_str($this->getNonceStr()); //随机字符串
 
         //签名
