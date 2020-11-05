@@ -158,7 +158,7 @@ class Client{
 
 
     //获取令牌
-    public function getToken(){
+    public function Token(){
         $request = new Token();
         $request->setAppid( $this->appid );
         $request->setSecret( $this->secret );
