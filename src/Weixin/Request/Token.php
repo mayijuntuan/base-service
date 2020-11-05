@@ -8,7 +8,7 @@ class Token extends BaseRequest{
     protected $action = '/cgi-bin/token';
     protected $method = 'post';
     protected $params = [
-        'grant_type' => 'authorization_code',
+        'grant_type' => 'client_credential',
     ];
 
     public function setAppid( $appid ){
