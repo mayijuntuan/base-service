@@ -22,6 +22,7 @@ use Mayijuntuan\Weixin\Request\SnsOauth2AccessToken;
 use Mayijuntuan\Weixin\Request\SnsOauth2ComponentAccessToken;
 use Mayijuntuan\Weixin\Request\SnsOauth2ComponentRefreshToken;
 use Mayijuntuan\Weixin\Request\SnsUserInfo;
+use Mayijuntuan\Weixin\Request\Token;
 use Mayijuntuan\Weixin\Request\WxaCommit;
 use Mayijuntuan\Weixin\Request\WxaCommitAudit;
 use Mayijuntuan\Weixin\Request\WxaGetAuditStatus;
@@ -116,32 +117,7 @@ class Client{
     }
 
     //消息解密
-    public function decryptxml(){
-/*
-        if( empty($_GET['encrypt_type']) ){
-            throw new Exception('encrypt_type不能为空' );
-        }
-        $encrypt_type = $_GET['encrypt_type'];
-*/
-        if( empty($_GET['msg_signature']) ){
-            throw new Exception('msg_signature不能为空' );
-        }
-        $msg_signature = $_GET['msg_signature'];
-
-        if( empty($_GET['timestamp']) ){
-            throw new Exception('timestamp不能为空' );
-        }
-        $timestamp = $_GET['timestamp'];
-
-        if( empty($_GET['nonce']) ){
-            throw new Exception('nonce不能为空' );
-        }
-        $nonce = $_GET['nonce'];
-
-        $postData = file_get_contents('php://input');
-        if( empty($postData) ){
-            throw new Exception('请求数据不能为空' );
-        }
+    public function decryptxml( $msg_signature, $timestamp, $nonce, $postData ){
 
         $pc = new WxBizMsgCrypt( $this->token, $this->aeskey, $this->appid );
         $msg = '';
@@ -180,6 +156,14 @@ class Client{
 
     }
 
+
+    //获取令牌
+    public function getToken(){
+        $request = new Token();
+        $request->setAppid( $this->appid );
+        $request->setSecret( $this->secret );
+        return $this->request( $request );
+    }
 
     //获取令牌
     public function ComponentApiComponentToken( $component_verify_ticket ){

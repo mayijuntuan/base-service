@@ -31,4 +31,8 @@ class BaseRequest{
         return $this->data;
     }
 
+    public function setData( $key, $value ){
+        $this->data[$key] = $value;
+    }
+
 }
