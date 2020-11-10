@@ -27,6 +27,10 @@ class BaseRequest{
         return $this->params;
     }
 
+    public function setParams( $key, $value ){
+        $this->params[$key] = $value;
+    }
+
     public function getData(){
         return $this->data;
     }

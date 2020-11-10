@@ -12,10 +12,6 @@ use Mayijuntuan\Weixin\Request\ComponentApiGetAuthorizerList;
 use Mayijuntuan\Weixin\Request\ComponentApiGetAuthorizerOption;
 use Mayijuntuan\Weixin\Request\ComponentApiQueryAuth;
 use Mayijuntuan\Weixin\Request\ComponentApiSetAuthorizerOption;
-use Mayijuntuan\Weixin\Request\OpenBind;
-use Mayijuntuan\Weixin\Request\OpenCreate;
-use Mayijuntuan\Weixin\Request\OpenGet;
-use Mayijuntuan\Weixin\Request\OpenUnbind;
 use Mayijuntuan\Weixin\Request\SnsComponentJscode2Session;
 use Mayijuntuan\Weixin\Request\SnsJscode2Session;
 use Mayijuntuan\Weixin\Request\SnsOauth2AccessToken;
@@ -23,14 +19,7 @@ use Mayijuntuan\Weixin\Request\SnsOauth2ComponentAccessToken;
 use Mayijuntuan\Weixin\Request\SnsOauth2ComponentRefreshToken;
 use Mayijuntuan\Weixin\Request\SnsUserInfo;
 use Mayijuntuan\Weixin\Request\Token;
-use Mayijuntuan\Weixin\Request\WxaCommit;
-use Mayijuntuan\Weixin\Request\WxaCommitAudit;
-use Mayijuntuan\Weixin\Request\WxaGetAuditStatus;
-use Mayijuntuan\Weixin\Request\WxaGetLatestAuditStatus;
-use Mayijuntuan\Weixin\Request\WxaGetPage;
-use Mayijuntuan\Weixin\Request\WxaGetQrcode;
-use Mayijuntuan\Weixin\Request\WxaRelease;
-use Mayijuntuan\Weixin\Request\WxaUndocodeaudit;
+use Mayijuntuan\Weixin\Request\UserInfo;
 
 
 class Client{
@@ -165,6 +154,14 @@ class Client{
         return $this->request( $request );
     }
 
+    //获取关注用户基本信息
+    public function UserInfo( $access_token, $openid ){
+        $request = new UserInfo();
+        $request->setAccessToken($access_token);
+        $request->setOpenid($openid);
+        return $this->request( $request );
+    }
+
     //获取令牌
     public function ComponentApiComponentToken( $component_verify_ticket ){
         $request = new ComponentApiComponentToken();
@@ -242,40 +239,6 @@ class Client{
     }
 
 
-    //创建开放平台帐号并绑定公众号/小程序
-    public function OpenCreate( $access_token, $appid ){
-        $request = new OpenCreate();
-        $request->setAccessToken($access_token);
-        $request->setAppid($appid);
-        return $this->request( $request );
-    }
-
-    //将公众号/小程序绑定到开放平台帐号下
-    public function OpenBind( $access_token, $appid, $open_appid ){
-        $request = new OpenBind();
-        $request->setAccessToken($access_token);
-        $request->setAppid($appid);
-        $request->setOpenAppid($open_appid);
-        return $this->request( $request );
-    }
-
-    //将公众号/小程序从开放平台帐号下解绑
-    public function OpenUnbind( $access_token, $appid, $open_appid ){
-        $request = new OpenUnbind();
-        $request->setAccessToken($access_token);
-        $request->setAppid($appid);
-        $request->setOpenAppid($open_appid);
-        return $this->request( $request );
-    }
-
-    //获取公众号/小程序所绑定的开放平台帐号
-    public function OpenGet( $access_token, $appid ){
-        $request = new OpenGet();
-        $request->setAccessToken($access_token);
-        $request->setAppid($appid);
-        return $this->request( $request );
-    }
-
     //公众号通过 code 换取 access_token
     public function SnsOauth2AccessToken( $code ){
         $request = new SnsOauth2AccessToken();
@@ -332,67 +295,6 @@ class Client{
         return $this->request( $request );
     }
 
-
-    //上传代码
-    public function WxaCommit( $access_token, $template_id, $ext_json, $user_version, $user_desc ){
-        $request = new WxaCommit();
-        $request->setAccessToken($access_token);
-        $request->setTemplateId($template_id);
-        $request->setExtJson(json_encode($ext_json));
-        $request->setUserVersion($user_version);
-        $request->setUserDesc($user_desc);
-        return $this->request( $request );
-    }
-
-    //获取已上传的代码的页面列表
-    public function WxaGetPage( $access_token ){
-        $request = new WxaGetPage();
-        $request->setAccessToken($access_token);
-        return $this->request( $request );
-    }
-
-    //获取体验版二维码
-    public function WxaGetQrcode( $access_token ){
-        $request = new WxaGetQrcode();
-        $request->setAccessToken($access_token);
-        return $this->request( $request );
-    }
-
-    //提交审核
-    public function WxaCommitAudit( $access_token ){
-        $request = new WxaCommitAudit();
-        $request->setAccessToken($access_token);
-        return $this->request( $request );
-    }
-
-    //查询指定发布审核单的审核状态
-    public function WxaGetAuditStatus( $access_token, $auditid ){
-        $request = new WxaGetAuditStatus();
-        $request->setAccessToken($access_token);
-        $request->setAuditid($auditid);
-        return $this->request( $request );
-    }
-
-    //查询最新一次提交的审核状态
-    public function WxaGetLatestAuditStatus( $access_token ){
-        $request = new WxaGetLatestAuditStatus();
-        $request->setAccessToken($access_token);
-        return $this->request( $request );
-    }
-
-    //审核撤回
-    public function WxaUndocodeaudit( $access_token ){
-        $request = new WxaUndocodeaudit();
-        $request->setAccessToken($access_token);
-        return $this->request( $request );
-    }
-
-    //发布已通过审核的小程序
-    public function WxaRelease( $access_token ){
-        $request = new WxaRelease();
-        $request->setAccessToken($access_token);
-        return $this->request( $request );
-    }
 
 
     //请求接口

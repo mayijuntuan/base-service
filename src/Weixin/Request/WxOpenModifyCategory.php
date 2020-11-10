@@ -7,6 +7,9 @@ class WxOpenModifyCategory extends BaseRequest{
 
     protected $action = '/cgi-bin/wxopen/modifycategory';
     protected $method = 'post';
+    protected $data = [
+        'certicates' => [],
+    ];
 
     public function setAccessToken( $access_token ){
         $this->params['access_token'] = $access_token;
