@@ -318,7 +318,13 @@ class Client{
         $method = $request->getMethod();
         if( $method == 'post' ){
             $data = $request->getData();
-            $postData = json_encode( (object)$data, JSON_UNESCAPED_UNICODE );
+
+            $postFormat = $request->getPostFormat();
+            if( $postFormat == 'json' ){
+                $postData = json_encode( (object)$data, JSON_UNESCAPED_UNICODE );
+            }else{
+                $postData = $data;
+            }
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         }

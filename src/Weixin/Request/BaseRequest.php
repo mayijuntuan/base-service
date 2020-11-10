@@ -8,6 +8,7 @@ class BaseRequest{
     protected $action = '';
     protected $method = 'get';
     protected $format = 'json';
+    protected $postFormat = 'json';
     protected $params = [];
     protected $data = [];
 
@@ -21,6 +22,10 @@ class BaseRequest{
 
     public function getFormat(){
         return $this->format;
+    }
+
+    public function getPostFormat(){
+        return $this->postFormat;
     }
 
     public function getParams(){
