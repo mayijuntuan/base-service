@@ -24,4 +24,8 @@ class MessageTemplateSend extends BaseRequest{
         $this->data['url'] = $url;
     }
 
+    public function setMiniprogram( $miniprogram ){
+        $this->data['miniprogram'] = $miniprogram;
+    }
+
 }
