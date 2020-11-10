@@ -6,6 +6,7 @@ namespace Mayijuntuan\Weixin\Request;
 class MediaGet extends BaseRequest{
 
     protected $action = '/cgi-bin/media/get';
+    protected $format = '';
 
     public function setAccessToken( $access_token ){
         $this->params['access_token'] = $access_token;
