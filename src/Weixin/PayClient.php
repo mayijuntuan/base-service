@@ -191,6 +191,9 @@ class PayClient{
         if( $result['return_code'] != 'SUCCESS' ){
             throw new Exception( '返回结果错误，错误信息:' . $result['return_msg'] );
         }
+        if( $result['result_code'] != 'SUCCESS' ){
+            throw new Exception( '请求结果错误，错误代码:' .$result['err_code'] . ',错误描述:' . $result['err_code_des'] );
+        }
 
         return $result;
 
