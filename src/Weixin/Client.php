@@ -4,6 +4,7 @@ namespace Mayijuntuan\Weixin;
 
 use Exception;
 use Mayijuntuan\Weixin\Msg\WxBizMsgCrypt;
+
 use Mayijuntuan\Weixin\Request\ComponentApiAuthorizerToken;
 use Mayijuntuan\Weixin\Request\ComponentApiComponentToken;
 use Mayijuntuan\Weixin\Request\ComponentApiCreatePreAuthCode;
@@ -335,11 +336,7 @@ class Client{
         $format = $request->getFormat();
         switch( $format ){
             case 'json':
-                    $data = json_decode($content);
-                    if( !empty($data->errcode) )
-                        throw new Exception('Weixin接口'. $action .'返回错误:' . $data->errcode . ':' . $data->errmsg );
-
-                    return $data;
+                    return json_decode($content);
                 break;
             default:
                     return $content;

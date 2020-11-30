@@ -7,6 +7,7 @@ class WxaImgSecCheck extends BaseRequest{
 
     protected $action = '/wxa/img_sec_check';
     protected $method = 'post';
+    protected $postFormat = '';
 
     public function setAccessToken( $access_token ){
         $this->params['access_token'] = $access_token;
