@@ -270,6 +270,11 @@ class Client{
 
     }
 
+    private function msectime(){
+        list($msec, $sec) = explode(' ', microtime());
+        return (float)sprintf('%.0f', (floatval($msec) + floatval($sec)) * 1000);
+    }
+
     //执行请求
     public function execute( $request, $auth_token=null, $app_auth_token=null){
         $result = $this->AopClient->execute( $request, $auth_token, $app_auth_token );
