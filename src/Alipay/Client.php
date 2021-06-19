@@ -293,7 +293,7 @@ class Client{
         $result = $this->AopClient->execute( $request, $auth_token, $app_auth_token );
         $responseNode = str_replace( '.', '_', $request->getApiMethodName()) . '_response';
         if( empty($result->$responseNode) ){
-            throw new Exception('支付宝接口错误:' . $result->error_response->sub_msg );
+            throw new Exception('支付宝接口错误:' . json_encode($result) );
         }
         if( !empty($result->$responseNode->code) && $result->$responseNode->code != 10000 ){
             throw new Exception('支付宝接口返回状态码错误:' . json_encode($result->$responseNode) );
