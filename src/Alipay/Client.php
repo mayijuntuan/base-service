@@ -6,6 +6,7 @@ use Mayijuntuan\Alipay\Requests\AlipaySystemOauthTokenRequest;
 use Mayijuntuan\Alipay\Requests\AlipayUserInfoShareRequest;
 
 use Mayijuntuan\Alipay\Requests\AlipayTradeWapPayRequest;
+use Mayijuntuan\Alipay\Requests\AlipayTradeAppPayRequest;
 use Mayijuntuan\Alipay\Requests\AlipayTradeCreateRequest;
 use Mayijuntuan\Alipay\Requests\AlipayTradeRefundRequest;
 
@@ -101,21 +102,33 @@ class Client{
     }
 
     //发起网页支付
-    public function TradeWapPay( $params, $notify_url, $return_url ){
+    public function TradeWapPay( $params, $return_url, $notify_url='' ){
         $request = new AlipayTradeWapPayRequest();
         $content = json_encode($params);
         $request->setBizContent($content);
-        $request->setNotifyUrl($notify_url);
         $request->setReturnUrl($return_url);
+        if( !empty($notify_url) )
+            $request->setNotifyUrl($notify_url);
         return $this->AopClient->pageExecute( $request, null, $this->app_auth_token );
     }
 
-    //支付下单
-    public function TradeCreate( $params, $notify_url ){
+    //APP支付下单
+    public function TradeAppPay( $params, $notify_url='' ){
+        $request = new AlipayTradeAppPayRequest();
+        $content = json_encode($params);
+        $request->setBizContent($content);
+        if( !empty($notify_url) )
+            $request->setNotifyUrl($notify_url);
+        return $this->execute( $request, null, $this->app_auth_token );
+    }
+
+    //统一支付下单
+    public function TradeCreate( $params, $notify_url='' ){
         $request = new AlipayTradeCreateRequest();
         $content = json_encode($params);
         $request->setBizContent($content);
-        $request->setNotifyUrl($notify_url);
+        if( !empty($notify_url) )
+            $request->setNotifyUrl($notify_url);
         return $this->execute( $request, null, $this->app_auth_token );
     }
 
