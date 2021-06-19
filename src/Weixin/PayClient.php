@@ -60,7 +60,7 @@ class PayClient{
      * 获取jsapi支付的参数
      * @return json数据，可直接填入js函数作为参数
      */
-    public function getJsApiParameters( $trade_no, $title, $amount, $openid, $notify_url ){
+    public function getJsApiParameters( $trade_no, $title, $amount, $notify_url, $trade_type, $openid='' ){
 
         //统一下单
         $action = '/pay/unifiedorder';
@@ -74,14 +74,16 @@ class PayClient{
         $input->SetTime_start(date('YmdHis'));
         $input->SetTime_expire(date('YmdHis', time() + 600));
         $input->SetNotify_url( $notify_url );
-        $input->SetTrade_type('JSAPI');
+        $input->SetTrade_type($trade_type);
 
         if( !empty($this->sub_appid) ){
             $input->SetSub_appid($this->sub_appid);
             $input->SetSub_mch_id($this->sub_mch_id);
-            $input->SetSub_openid($openid);
+            if( !empty($openid) )
+                $input->SetSub_openid($openid);
         }else{
-            $input->SetOpenid($openid);
+            if( !empty($openid) )
+                $input->SetOpenid($openid);
         }
 
         $UnifiedOrderResult = $this->api( $action, $input);
