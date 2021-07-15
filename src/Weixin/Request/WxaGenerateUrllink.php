@@ -6,6 +6,7 @@ namespace Mayijuntuan\Weixin\Request;
 class WxaGenerateUrllink extends BaseRequest{
 
     protected $action = '/wxa/generate_urllink';
+    protected $method = 'post';
 
     public function setAccessToken( $access_token ){
         $this->params['access_token'] = $access_token;
