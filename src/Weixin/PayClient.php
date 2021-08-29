@@ -87,21 +87,19 @@ class PayClient{
         }
 
         $UnifiedOrderResult = $this->api( $action, $input);
+        if( empty($UnifiedOrderResult['prepay_id']) )
+            throw new Exception("支付下单失败");
+        $prepay_id = $UnifiedOrderResult['prepay_id'];
 
-        if( !array_key_exists('appid', $UnifiedOrderResult)
-            || !array_key_exists('prepay_id', $UnifiedOrderResult)
-            || $UnifiedOrderResult['prepay_id'] == '')
-        {
-            throw new Exception("参数错误");
-        }
+        $appid = empty($this->sub_appid) ? $this->appid : $this->sub_appid;
 
         $jsapi = new JsApiPay();
         $jsapi->SetKey($this->key);
-        $jsapi->SetAppid($UnifiedOrderResult['appid']);
+        $jsapi->SetAppid($appid);
         $timeStamp = ''.time();
         $jsapi->SetTimeStamp($timeStamp);
         $jsapi->SetNonceStr($this->getNonceStr());
-        $jsapi->SetPackage('prepay_id=' . $UnifiedOrderResult['prepay_id']);
+        $jsapi->SetPackage('prepay_id=' . $prepay_id);
         $jsapi->SetSignType('MD5');
         $jsapi->SetPaySign($jsapi->MakeSign());
         $parameters = $jsapi->GetValues();
