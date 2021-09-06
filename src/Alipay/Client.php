@@ -21,8 +21,6 @@ use Mayijuntuan\Alipay\Requests\AlipayOpenPublicMenuBatchqueryRequest;
 use Mayijuntuan\Alipay\Requests\AlipayOpenMiniBaseinfoQueryRequest;
 use Mayijuntuan\Alipay\Requests\AlipayOpenMiniBaseinfoModifyRequest;
 
-use Exception;
-
 
 class Client{
 
@@ -235,16 +233,16 @@ class Client{
     public function gateway_verify(){
 
         if( empty($_POST['sign']) )
-            throw new Exception('parameter sign is empty');
+            throw new \Exception('parameter sign is empty');
 
         if( empty($_POST['sign_type']) )
-            throw new Exception('parameter sign_type is empty');
+            throw new \Exception('parameter sign_type is empty');
 
         if( empty($_POST['charset']) )
-            throw new Exception('parameter charset is empty');
+            throw new \Exception('parameter charset is empty');
 
         if( empty($_POST['biz_content']) )
-            throw new Exception('parameter biz_content is empty');
+            throw new \Exception('parameter biz_content is empty');
 
         return $this->AopClient->rsaCheckV2( $_POST, null, $_POST['sign_type'] );
 
@@ -293,10 +291,10 @@ class Client{
         $result = $this->AopClient->execute( $request, $auth_token, $app_auth_token );
         $responseNode = str_replace( '.', '_', $request->getApiMethodName()) . '_response';
         if( empty($result->$responseNode) ){
-            throw new Exception('支付宝接口错误:' . json_encode($result) );
+            throw new \Exception('支付宝接口错误:' . json_encode($result) );
         }
         if( !empty($result->$responseNode->code) && $result->$responseNode->code != 10000 ){
-            throw new Exception('支付宝接口返回状态码错误:' . json_encode($result->$responseNode) );
+            throw new \Exception('支付宝接口返回状态码错误:' . json_encode($result->$responseNode) );
         }
         return $result->$responseNode;
     }

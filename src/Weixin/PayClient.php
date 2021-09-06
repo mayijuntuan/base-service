@@ -7,8 +7,6 @@ use Mayijuntuan\Weixin\Pay\JsApiPay;
 use Mayijuntuan\Weixin\Pay\Refund;
 use Mayijuntuan\Weixin\Pay\Results;
 
-use Exception;
-
 
 class PayClient{
 
@@ -88,7 +86,7 @@ class PayClient{
 
         $UnifiedOrderResult = $this->api( $action, $input);
         if( empty($UnifiedOrderResult['prepay_id']) )
-            throw new Exception("支付下单失败");
+            throw new \Exception("支付下单失败");
         $prepay_id = $UnifiedOrderResult['prepay_id'];
 
         $appid = empty($this->sub_appid) ? $this->appid : $this->sub_appid;
@@ -189,10 +187,10 @@ class PayClient{
         $result = $results->Init($response);
 
         if( $result['return_code'] != 'SUCCESS' ){
-            throw new Exception( '返回结果错误，错误信息:' . $result['return_msg'] );
+            throw new \Exception( '返回结果错误，错误信息:' . $result['return_msg'] );
         }
         if( $result['result_code'] != 'SUCCESS' ){
-            throw new Exception( '请求结果错误，错误代码:' .$result['err_code'] . ',错误描述:' . $result['err_code_des'] );
+            throw new \Exception( '请求结果错误，错误代码:' .$result['err_code'] . ',错误描述:' . $result['err_code_des'] );
         }
 
         return $result;
@@ -244,10 +242,10 @@ class PayClient{
         curl_close($ch);
 
         if( $errorno ){
-            throw new Exception('curl返回错误'.$errorno );
+            throw new \Exception('curl返回错误'.$errorno );
         }
         if( $code != 200 ){
-            throw new Exception('curl返回状态码错误'.$code );
+            throw new \Exception('curl返回状态码错误'.$code );
         }
 
         return $data;

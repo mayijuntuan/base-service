@@ -3,8 +3,6 @@ namespace Mayijuntuan\Captcha;
 
 use Mayijuntuan\Captcha\RecaptchaService;
 
-use Exception;
-
 
 final class Client
 {
@@ -19,7 +17,7 @@ final class Client
                 $this->client = new RecaptchaService($config);
                 break;
             default:
-                throw new Exception('Driver ' . $driver . ' does not support' );
+                throw new \Exception('Driver ' . $driver . ' does not support' );
                 break;
         }//end switch
 

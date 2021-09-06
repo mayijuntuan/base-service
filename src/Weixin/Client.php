@@ -2,7 +2,6 @@
 
 namespace Mayijuntuan\Weixin;
 
-use Exception;
 use Mayijuntuan\Weixin\Msg\WxBizMsgCrypt;
 
 use Mayijuntuan\Weixin\Request\ComponentApiAuthorizerToken;
@@ -84,12 +83,12 @@ class Client{
     public function decryptData( $sessionKey, $encryptedData, $iv ){
 
         if (strlen($sessionKey) != 24) {
-            throw new Exception('sessionKey长度错误' );
+            throw new \Exception('sessionKey长度错误' );
         }
         $aesKey = base64_decode($sessionKey);
 
         if (strlen($iv) != 24) {
-            throw new Exception('iv长度错误' );
+            throw new \Exception('iv长度错误' );
         }
         $aesIV = base64_decode($iv);
 
@@ -99,7 +98,7 @@ class Client{
 
         $data = json_decode( $result );
         if( is_null($data) ) {
-            throw new Exception('数据格式错误'.$result );
+            throw new \Exception('数据格式错误'.$result );
         }
 
         return $data;
@@ -113,7 +112,7 @@ class Client{
         $msg = '';
         $errCode = $pc->decryptMsg( $msg_signature, $timestamp, $nonce, $postData, $msg );
         if( $errCode != 0 ){
-            throw new Exception('数据解密失败' . $errCode );
+            throw new \Exception('数据解密失败' . $errCode );
         }
 
         $res = simplexml_load_string( $msg, 'SimpleXMLElement', LIBXML_NOCDATA );
@@ -139,7 +138,7 @@ class Client{
         $pc = new WXBizMsgCrypt( $this->token, $this->aeskey, $this->appid );
         $errCode = $pc->encryptMsg( $xml, $timestamp, $nonce, $encryptMsg );
         if( $errCode != 0 ){
-            throw new Exception('数据加密失败' . $errCode );
+            throw new \Exception('数据加密失败' . $errCode );
         }
 
         return $encryptMsg;
