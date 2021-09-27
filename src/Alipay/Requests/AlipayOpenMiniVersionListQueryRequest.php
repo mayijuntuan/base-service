@@ -7,10 +7,14 @@ namespace Mayijuntuan\Alipay\Requests;
  * ALIPAY API: alipay.open.mini.version.list.query request
  *
  * @author auto create
- * @since 1.0, 2020-03-18 15:45:11
+ * @since 1.0, 2021-08-09 11:21:33
  */
 class AlipayOpenMiniVersionListQueryRequest
 {
+	/** 
+	 * 小程序版本列表查询
+	 **/
+	private $bizContent;
 
 	private $apiParas = array();
 	private $terminalType;
@@ -22,6 +26,17 @@ class AlipayOpenMiniVersionListQueryRequest
     private $needEncrypt=false;
 
 	
+	public function setBizContent($bizContent)
+	{
+		$this->bizContent = $bizContent;
+		$this->apiParas["biz_content"] = $bizContent;
+	}
+
+	public function getBizContent()
+	{
+		return $this->bizContent;
+	}
+
 	public function getApiMethodName()
 	{
 		return "alipay.open.mini.version.list.query";
