@@ -13,14 +13,6 @@ use Mayijuntuan\Alipay\Requests\AlipayTradeRefundRequest;
 use Mayijuntuan\Alipay\Requests\AlipayOpenAuthTokenAppRequest;
 use Mayijuntuan\Alipay\Requests\AlipayOpenAuthTokenAppQueryRequest;
 
-use Mayijuntuan\Alipay\Requests\AlipayOpenPublicInfoQueryRequest;
-use Mayijuntuan\Alipay\Requests\AlipayOpenPublicInfoModifyRequest;
-use Mayijuntuan\Alipay\Requests\AlipayOpenPublicFollowBatchqueryRequest;
-use Mayijuntuan\Alipay\Requests\AlipayOpenPublicMenuBatchqueryRequest;
-
-use Mayijuntuan\Alipay\Requests\AlipayOpenMiniBaseinfoQueryRequest;
-use Mayijuntuan\Alipay\Requests\AlipayOpenMiniBaseinfoModifyRequest;
-
 
 class Client{
 
@@ -178,74 +170,15 @@ class Client{
         return $this->execute( $request );
     }
 
-    //获取生活号信息
-    public function OpenPublicInfoQuery( $app_auth_token ){
-        $request = new AlipayOpenPublicInfoQueryRequest();
-        return $this->execute( $request, null, $app_auth_token );
-    }
-
-    //修改生活号信息
-    public function OpenPublicInfoModify( $app_auth_token, $params ){
-        $request = new AlipayOpenPublicInfoModifyRequest();
-        $content = json_encode($params);
-        $request->setBizContent($content);
-        return $this->execute( $request, null, $app_auth_token );
-    }
-
-    //获取生活号粉丝
-    public function OpenPublicFollowBatchquery( $app_auth_token, $next_user_id='' ){
-        $request = new AlipayOpenPublicFollowBatchqueryRequest();
-        $content = array(
-            'next_user_id' => $next_user_id,
-        );
-        $content = json_encode($content);
-        $request->setBizContent($content);
-        return $this->execute( $request, null, $app_auth_token );
-    }
-
-    //获取生活号菜单
-    public function OpenPublicMenuBatchquery( $app_auth_token ){
-        $request = new AlipayOpenPublicMenuBatchqueryRequest();
-        return $this->execute( $request, null, $app_auth_token );
-    }
-
-    //获取小程序信息
-    public function OpenMiniBaseinfoQuery( $app_auth_token ){
-        $request = new AlipayOpenMiniBaseinfoQueryRequest();
-        return $this->execute( $request, null, $app_auth_token );
-    }
-
-    //修改小程序信息
-    public function OpenMiniBaseinfoModify( $app_auth_token, $params ){
-        $request = new AlipayOpenMiniBaseinfoModifyRequest();
-        $content = json_encode($params);
-        $request->setBizContent($content);
-        return $this->execute( $request, null, $app_auth_token );
-    }
-
 
     //回调校验
-    public function rsaCheckV1(){
-        return $this->AopClient->rsaCheckV1( $_POST, null, $this->sign_type );
+    public function rsaCheckV1( $params ){
+        return $this->AopClient->rsaCheckV1( $params, null, $params['sign_type'] );
     }
 
     //网关消息验证
-    public function gateway_verify(){
-
-        if( empty($_POST['sign']) )
-            throw new \Exception('parameter sign is empty');
-
-        if( empty($_POST['sign_type']) )
-            throw new \Exception('parameter sign_type is empty');
-
-        if( empty($_POST['charset']) )
-            throw new \Exception('parameter charset is empty');
-
-        if( empty($_POST['biz_content']) )
-            throw new \Exception('parameter biz_content is empty');
-
-        return $this->AopClient->rsaCheckV2( $_POST, null, $_POST['sign_type'] );
-
+    public function rsaCheckV2( $params ){
+        return $this->AopClient->rsaCheckV2( $params, null, $params['sign_type'] );
     }
 
     public function gateway_service_check( $is_sign_success=true ){
