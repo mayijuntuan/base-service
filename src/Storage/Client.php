@@ -51,9 +51,16 @@ final class Client{
         return $this->client->getList( $options );
     }
 
+    //获取base url
+    public function getBaseUrl(){
+        return $this->client->getBaseUrl();
+    }
+
     //获取url
     public function getUrl( $key ){
-        return $this->client->getUrl( $key );
+        if( empty($key) || strpos($key, 'http://') === 0 || strpos($key, 'https://') === 0)
+            return $key;
+        return $this->getBaseUrl() . $key;
     }
 
     //删除

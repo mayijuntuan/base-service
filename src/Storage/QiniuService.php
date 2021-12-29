@@ -58,11 +58,9 @@ class QiniuService{
 
     }
 
-    //获取url
-    public function getUrl( $key ){
-        if( empty($key) || strpos($key, 'http://') === 0 || strpos($key, 'https://') === 0)
-            return $key;
-        return $this->config['url'] . $key;
+    //获取base url
+    public function getBaseUrl(){
+        return $this->config['url'];
     }
 
     //删除
