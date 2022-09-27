@@ -7,8 +7,4 @@ class WxaGetWxaSearchStatus extends BaseRequest{
 
     protected $action = '/wxa/getwxasearchstatus';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
 }

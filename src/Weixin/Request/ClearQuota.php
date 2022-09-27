@@ -8,10 +8,6 @@ class ClearQuota extends BaseRequest{
     protected $action = '/cgi-bin/clear_quota';
     protected $method = 'post';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setAppid( $appid ){
         $this->data['appid'] = $appid;
     }

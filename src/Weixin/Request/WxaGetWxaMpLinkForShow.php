@@ -7,10 +7,6 @@ class WxaGetWxaMpLinkForShow extends BaseRequest{
 
     protected $action = '/wxa/getwxamplinkforshow';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setPage( $page ){
         $this->params['page'] = $page;
     }

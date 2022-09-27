@@ -8,10 +8,6 @@ class MessageTemplateSend extends BaseRequest{
     protected $action = '/cgi-bin/message/template/send';
     protected $method = 'post';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setToUser( $touser ){
         $this->data['touser'] = $touser;
     }

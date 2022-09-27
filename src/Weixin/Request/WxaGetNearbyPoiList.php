@@ -11,10 +11,6 @@ class WxaGetNearbyPoiList extends BaseRequest{
         'page_rows' => 100,
     ];
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setPage( $page=1 ){
         $this->params['page'] = $page;
     }

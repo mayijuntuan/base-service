@@ -12,10 +12,6 @@ class MediaUpload extends BaseRequest{
         'type' => 'image',
     ];
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setType( $type='image' ){
         $this->params['type'] = $type;
     }

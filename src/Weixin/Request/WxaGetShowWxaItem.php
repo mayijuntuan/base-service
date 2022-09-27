@@ -7,8 +7,4 @@ class WxaGetShowWxaItem extends BaseRequest{
 
     protected $action = '/wxa/getshowwxaitem';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
 }

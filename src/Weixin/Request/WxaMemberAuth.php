@@ -11,10 +11,6 @@ class WxaMemberAuth extends BaseRequest{
         'action' => 'get_experiencer',
     ];
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setAction( $action='get_experiencer' ){
         $this->data['action'] = $action;
     }

@@ -7,10 +7,6 @@ class WxaSetNearbyPoiShowStatus extends BaseRequest{
 
     protected $action = '/wxa/setnearbypoishowstatus';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setPoiId( $poi_id ){
         $this->data['poi_id'] = $poi_id;
     }

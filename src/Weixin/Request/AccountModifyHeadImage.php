@@ -8,10 +8,6 @@ class AccountModifyHeadImage extends BaseRequest{
     protected $action = '/cgi-bin/account/modifyheadimage';
     protected $method = 'post';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setHeadImgMediaId( $head_img_media_id ){
         $this->data['head_img_media_id'] = $head_img_media_id;
     }

@@ -7,8 +7,4 @@ class WxaGetLatestAuditStatus extends BaseRequest{
 
     protected $action = '/wxa/get_latest_auditstatus';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
 }

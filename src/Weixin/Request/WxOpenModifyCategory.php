@@ -11,10 +11,6 @@ class WxOpenModifyCategory extends BaseRequest{
         'certicates' => [],
     ];
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setFirst( $first ){
         $this->data['first'] = $first;
     }

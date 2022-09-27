@@ -8,8 +8,4 @@ class WxaRelease extends BaseRequest{
     protected $action = '/wxa/release';
     protected $method = 'post';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
 }

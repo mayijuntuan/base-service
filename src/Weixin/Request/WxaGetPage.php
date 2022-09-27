@@ -7,8 +7,4 @@ class WxaGetPage extends BaseRequest{
 
     protected $action = '/wxa/get_page';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
 }

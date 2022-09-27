@@ -10,10 +10,6 @@ class WxaAddNearbyPoi extends BaseRequest{
         'is_comm_nearby' => 1,
     ];
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setPoiId( $poi_id ){
         $this->data['poi_id'] = $poi_id;
     }

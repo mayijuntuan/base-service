@@ -8,10 +8,6 @@ class WxaModifyDomain extends BaseRequest{
     protected $action = '/wxa/modify_domain';
     protected $method = 'post';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setAction( $action ){
         $this->data['action'] = $action;
     }

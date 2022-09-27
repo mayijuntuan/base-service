@@ -8,10 +8,6 @@ class WxaCommitAudit extends BaseRequest{
     protected $action = '/wxa/submit_audit';
     protected $method = 'post';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
     public function setItemList( $item_list ){
         $this->data['item_list'] = $item_list;
     }

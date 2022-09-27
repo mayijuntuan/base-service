@@ -44,4 +44,8 @@ class BaseRequest{
         $this->data[$key] = $value;
     }
 
+    public function setAccessToken( $access_token ){
+        $this->params['access_token'] = $access_token;
+    }
+
 }

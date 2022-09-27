@@ -8,8 +8,4 @@ class WxOpenWxaMpLinkGet extends BaseRequest{
     protected $action = '/cgi-bin/wxopen/wxamplinkget';
     protected $method = 'post';
 
-    public function setAccessToken( $access_token ){
-        $this->params['access_token'] = $access_token;
-    }
-
 }
