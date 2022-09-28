@@ -6,5 +6,6 @@ namespace Mayijuntuan\Weixin\Request;
 class WxaGetVersionInfo extends BaseRequest{
 
     protected $action = '/wxa/getversioninfo';
+    protected $method = 'post';
 
 }

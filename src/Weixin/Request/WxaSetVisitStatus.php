@@ -6,6 +6,7 @@ namespace Mayijuntuan\Weixin\Request;
 class WxaSetVisitStatus extends BaseRequest{
 
     protected $action = '/wxa/change_visitstatus';
+    protected $method = 'post';
 
     public function setAction( $action ){
         $this->data['action'] = $action;
